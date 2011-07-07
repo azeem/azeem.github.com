@@ -1,0 +1,128 @@
+body {
+    font-family:sans-serif;
+    font-size:15px;
+    color:#333;
+    margin:0px;
+    padding:0px;
+}
+
+a {
+    color:#00A4D2;
+    text-decoration:underline;
+}
+
+a:hover {
+    color:#fff;
+    background-color:#00A4D2;
+}
+
+h1, h2, h3, h4 {
+    margin:0px;
+    font-weight:bold;
+}
+
+h1 { font-size:1.7em; }
+h2 { font-size:1.5em; }
+
+/* Layout */
+#container {
+    width:100%;
+    margin:0 auto 0 auto;
+}
+
+#header {
+    background-color:#2b3e42;
+    border-bottom:5px solid #77bed2;
+    color:#f6f9fc;
+    padding:10px;
+}
+#header h1 {
+    font-weight:normal;
+    font-size:1.2em;
+    margin:0px;
+    padding:0px;
+}
+
+.navmenu {
+    float:right;
+    padding:0px;
+    margin:0px;
+}
+.navmenu li {
+    display:inline;
+    margin-left:10px;
+}
+.navmenu a {
+    color:white;
+    font-weight:bold;
+    text-decoration:none;
+}
+.navmenu a:hover {
+    background-color:transparent;
+    color:#77bed2;
+    border-bottom:2px solid #77bed2;
+}
+
+#main {
+    width:750px;
+    margin:25px 0 0 25px;
+}
+#main.page {
+    width:600px;
+    margin:25px auto 0 auto;
+}
+
+.me {
+    height:70px;
+    list-style:none;
+    padding:0px 0px 0px 70px;
+    background:transparent url(http://www.gravatar.com/avatar/ef58f66d8b53162b1e678e9557f2bf4a?s=64&r=PG) no-repeat scroll left center;
+}
+
+.post {
+    margin-bottom:1em;
+}
+.post-head {
+    border-left:5px solid #77BED2;
+    padding-left:10px;
+}
+.post-head a {
+    color:#F2583E;
+    text-decoration:none;
+}
+.post-head a:hover {
+    color:#fff;
+    background-color:#F2583E;
+    text-decoration:none;
+}
+.pub-time {
+    color:#777;
+}
+.post-body {
+    line-height:1.4em;
+}
+
+.bottom-nav {
+    color:#777;
+    margin:1em 0;
+    text-align:center;
+}
+
+.archive-list {
+    padding:0px;
+    list-style:none;
+}
+.archive-list li {
+    margin:0.4em;
+    color:#777;
+}
+
+.corner-link {
+    float:right;
+    margin:1em;
+}
+
+.icon-feed {
+    background:transparent url(../images/feed.png) no-repeat scroll center left;
+    padding-left:20px;
+}
