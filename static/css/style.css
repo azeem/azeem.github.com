@@ -1,6 +1,6 @@
 body {
-    font-family:sans-serif;
-    font-size:15px;
+    font-family:calibri,tahoma,arial,sans-serif;
+    font-size:100%;
     color:#333;
     margin:0px;
     padding:0px;
@@ -21,8 +21,8 @@ h1, h2, h3, h4 {
     font-weight:bold;
 }
 
-h1 { font-size:1.7em; }
-h2 { font-size:1.5em; }
+h1 { font-size:1.5em; }
+h2 { font-size:1em; }
 
 /* Layout */
 #container {
@@ -35,18 +35,23 @@ h2 { font-size:1.5em; }
     border-bottom:5px solid #77bed2;
     color:#f6f9fc;
     padding:10px;
+    position:relative;
 }
 #header h1 {
-    font-weight:normal;
-    font-size:1.2em;
+    font-size:1.4em;
     margin:0px;
     padding:0px;
+    text-shadow:#66A2B3 2px 2px 2px;
+    letter-spacing:1px;
 }
 
 .navmenu {
-    float:right;
+    position:absolute;
+    right:1em;
+    bottom:0.7em;
     padding:0px;
     margin:0px;
+    font-size:0.95em;
 }
 .navmenu li {
     display:inline;
@@ -65,7 +70,7 @@ h2 { font-size:1.5em; }
 
 #main {
     width:750px;
-    margin:25px 0 0 25px;
+    margin:25px 0 0 40px;
 }
 #main.page {
     width:600px;
@@ -80,10 +85,10 @@ h2 { font-size:1.5em; }
 }
 
 .post {
-    margin-bottom:1em;
+    margin-bottom:3em;
 }
 .post-head {
-    border-left:5px solid #77BED2;
+    border-left:7px solid #77BED2;
     padding-left:10px;
 }
 .post-head a {
@@ -100,6 +105,19 @@ h2 { font-size:1.5em; }
 }
 .post-body {
     line-height:1.4em;
+}
+.post-body em {
+    font-weight:bold;
+}
+.post-body img {
+    display:block;
+    margin:1em auto;
+}
+.post-body .gist .gist-file .gist-data {
+    font-size:0.8em;
+    max-height:25em;
+    overflow:auto;
+    line-height:1.2em;
 }
 
 .bottom-nav {
