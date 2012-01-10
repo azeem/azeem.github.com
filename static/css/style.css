@@ -1,80 +1,168 @@
+html {
+    height:100%;
+}
+
 body {
     font-family:calibri,tahoma,arial,sans-serif;
     font-size:100%;
     color:#333;
     margin:0px;
     padding:0px;
+    background-image:url(../images/subliminal.gif);
+    height:100%;
 }
 
 a {
-    color:#00A4D2;
-    text-decoration:underline;
-}
-
-a:hover {
-    color:#fff;
-    background-color:#00A4D2;
-}
-
-h1, h2, h3, h4 {
-    margin:0px;
-    font-weight:bold;
-}
-
-h1 { font-size:1.5em; }
-h2 { font-size:1em; }
-
-/* Layout */
-#container {
-    width:100%;
-    margin:0 auto 0 auto;
-}
-
-#header {
-    background-color:#2b3e42;
-    border-bottom:5px solid #77bed2;
-    color:#f6f9fc;
-    padding:10px;
-    position:relative;
-}
-#header h1 {
-    font-size:1.4em;
-    margin:0px;
-    padding:0px;
-    text-shadow:#66A2B3 2px 2px 2px;
-    letter-spacing:1px;
-}
-
-.navmenu {
-    position:absolute;
-    right:1em;
-    bottom:0.7em;
-    padding:0px;
-    margin:0px;
-    font-size:0.95em;
-}
-.navmenu li {
-    display:inline;
-    margin-left:10px;
-}
-.navmenu a {
-    color:white;
+    color:#6F7F8C;
     font-weight:bold;
     text-decoration:none;
 }
-.navmenu a:hover {
-    background-color:transparent;
-    color:#77bed2;
-    border-bottom:2px solid #77bed2;
+
+a:hover {
+    text-decoration:underline;
 }
 
-#main {
-    width:750px;
-    margin:25px 0 0 40px;
+h1, h2, h3, h4 {
+    font-family:georgia,serif;
+    margin:0.5em 0;
+    font-weight:bold;
+    color:#4F5A63;
 }
-#main.page {
-    width:600px;
-    margin:25px auto 0 auto;
+
+h1 {
+    font-size:1.4em;
+    color:#687854;/*#6F7F8C;*/
+}
+h2 { font-size:1.2em; }
+
+pre {
+    width:100%;
+    overflow:auto;
+    max-height:25em;
+}
+
+blockquote {
+    border-left:10px solid #C2CCD4;
+    padding-left:10px;
+}
+
+hr {
+    width:70%;
+    height:1px;
+    border-color:#6F7F8C;
+    border-style:dotted;
+    border-width:1px 0px 0px 0px;
+    margin:1em auto;
+}
+
+
+/* Layout */
+#container {
+    width:650px;
+    margin-left:auto;
+    margin-right:auto;
+    min-height:400px;
+    background-color:#FFFFFF;
+    padding:1em 2em;
+    position:relative;
+    border-bottom:10px solid #4F5A63;
+}
+
+#header {
+    text-align:center;
+}
+#header h1 {
+    font-size:1.6em;
+    color:#4F5A63;
+    margin:0px;
+}
+#header a {
+    text-decoration:none;
+    color:#4F5A63;
+}
+
+.navmenu {
+    padding:0px;
+    margin:0px;
+    position:absolute;
+    width:100px;
+    left:-120px;
+    top:100px;
+    list-style:none;
+    text-align:right;
+}
+.navmenu li {
+    margin-bottom:0.3em;
+}
+.navmenu li.selected a {
+    font-weight:bold;
+}
+
+.navmenu a {
+    color:black;
+    font-weight:normal;
+}
+
+/* Elements */
+
+#main h1 {
+    text-align:center;
+}
+
+.item-list {
+    list-style:square;
+    padding:0px 2em;
+    margin:0px;
+}
+
+.item-list li {
+    margin-bottom:0.5em;
+    padding:2px;
+}
+
+.item-list-info {
+    font-size:0.8em;
+}
+
+.item-list-info a {
+    font-weight:normal;
+}
+
+.pub-time {
+    font-size:0.8em;
+}
+
+.post-head {
+    text-align:center;
+}
+.post-head h1 {
+    margin-bottom:4px;
+}
+.post-head h1 a {
+    color:inherit;
+}
+.post-body h1,
+.post-body h2,
+.post-body h3 {
+    text-align:center;
+}
+.post-body .gist .gist-file .gist-data {
+    font-size:0.8em;
+    max-height:25em;
+    overflow:auto;
+    line-height:1.2em;
+}
+.post-body .gist pre {
+    overflow:visible;
+}
+.post-body img {
+    display:block;
+    margin:1em auto;
+}
+
+.bottom-nav {
+    text-align:center;
+    font-size:0.9em;
 }
 
 .me {
@@ -84,63 +172,6 @@ h2 { font-size:1em; }
     background:transparent url(http://www.gravatar.com/avatar/ef58f66d8b53162b1e678e9557f2bf4a?s=64&r=PG) no-repeat scroll left center;
 }
 
-.post {
-    margin-bottom:3em;
-}
-.post-head {
-    border-left:7px solid #77BED2;
-    padding-left:10px;
-}
-.post-head a {
-    color:#F2583E;
-    text-decoration:none;
-}
-.post-head a:hover {
-    color:#fff;
-    background-color:#F2583E;
-    text-decoration:none;
-}
-.pub-time {
-    color:#777;
-}
-.post-body {
-    line-height:1.4em;
-}
-.post-body em {
-    font-weight:bold;
-}
-.post-body img {
-    display:block;
-    margin:1em auto;
-}
-.post-body .gist .gist-file .gist-data {
-    font-size:0.8em;
-    max-height:25em;
-    overflow:auto;
-    line-height:1.2em;
-}
-
-.bottom-nav {
-    color:#777;
-    margin:1em 0;
-    text-align:center;
-}
-
-.archive-list {
-    padding:0px;
-    list-style:none;
-}
-.archive-list li {
-    margin:0.4em;
-    color:#777;
-}
-
-.corner-link {
-    float:right;
-    margin:1em;
-}
-
-.icon-feed {
-    background:transparent url(../images/feed.png) no-repeat scroll center left;
-    padding-left:20px;
+#disqus_thread {
+    margin-top:2.5em;
 }
