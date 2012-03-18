@@ -5,6 +5,23 @@
         <link>http://azeemarshad.in</link>
         <description>Azeem Arshad's Home Page</description>
             <item>
+                <title>Yago Loader</title>
+                <link>http://azeemarshad.in/posts/yago_loader.html</link>
+                <guid>http://azeemarshad.in/posts/yago_loader.html</guid>
+                <description>
+                    <![CDATA[
+                        <p><a href="http://www.mpi-inf.mpg.de/yago-naga/yago/">Yago</a> is a huge semantic knowledge base, containing millions of facts about millions of entities (People, Organizations, Places etc.). I have been playing around with Yago some time back. I was going through the stuff again this weekend and I came across this small loader program that I had written back then.</p>
+
+<p>The Yago core database is a 3.4Gb <a href="http://www.mpi-inf.mpg.de/yago-naga/yago/downloads.html">download</a>. It comes as a bunch of TSV (Tab Separated Values) files, one file for each predicate (Facts in knowledge bases are represented as triplets of subject, predicate, object). Each file contains tab separated ID, subject and predicate on every line. There is a <a href="http://www.mpi-inf.mpg.de/yago-naga/yago/download/yago2/yago2converters_20111027.7z">converter tool</a> also, that can load the TSV data into a database, but I wanted to try loading the files using <a href="http://dev.mysql.com/doc/refman/5.1/en/load-data.html">MySQL LOAD DATA INFILE</a> statement. LOAD DATA INFILE lets you bulk load a file into a table, thus ridding the need to run INSERT statements.  My loader program simply reads a TSV file and creates a temporary file containing the rows to be loaded into the database table and then runs LOAD DATA INFILE statement.</p>
+
+<div data-gist-id="1103406"><a href="http://gist.github.com/1103406">Yago Loader</a></div>
+
+<p>Using the <code>--exclude</code> option and <code>--log</code> option with the same argument will exclude files in the log. This would allow us to stop the loading at any point and resume, some time later, with the TSV file that it stopped at.</p>
+
+                    ]]>
+                </description>
+            </item>
+            <item>
                 <title>Diagram connector routing</title>
                 <link>http://azeemarshad.in/posts/diagram_connector_routing.html</link>
                 <guid>http://azeemarshad.in/posts/diagram_connector_routing.html</guid>
