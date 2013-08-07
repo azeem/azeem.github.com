@@ -1,0 +1,142 @@
+<!DOCTYPE HTML">
+<html lang="en">
+    <head>
+        <title>Diagram connector routing | Azeem Arshad</title>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/css/fontello.css"/>
+    </head>
+    <body>
+        <div class="main-container">
+            
+    <h1 id="light-masthead">Azeem Arshad</h1>
+    
+    <h1><a href="http://azeemarshad.in/posts/diagram_connector_routing.html">Diagram connector routing</a></h1>
+    <div class="sub-text small">10 January 2012, 12:01 | <a href="http://azeemarshad.in/posts/diagram_connector_routing.html">Permanent Link</a></div>
+    <div class="body">
+        <p>I have been trying to find some interesting coding stuff to work on, something to get off of the
+line of work that i do at my day job, relive the college days :P. This is an interesting
+problem that came up when i tried to dust off one of my old javascript projects. In simple words, the
+problem goes something like this: given a flow chart, how do you automatically render orthogonal
+flow lines without intersections or collisions.</p>
+<p><a href="http://pipes.yahoo.com/pipes/">Yahoo pipes</a> was sort of like a reference design for my project. But i wanted clean
+orthogonal connecting lines that avoided each other, unlike the curvy pipes that would go
+behind components. Interestingly, i could find some nice javascript libraries: <a href="http://neyric.github.com/wireit/">WireIt</a>,
+<a href="http://jsplumb.org/jquery/demo.html">jsPlumb</a>, <a href="http://www.jointjs.com/">joinjs</a> etc. that takes care of computing/rendering the connectors etc.
+Regardless, in the DIY spirit, (or rather, the Reinvent The Wheel Yourself spirit :P) i started
+to prototype.</p>
+<p>The underlying problem is path search. A 2D canvas can be treated as a <a href="http://en.wikipedia.org/wiki/Graph_(mathematics)">Graph</a>, where each
+pixel is represented by a node (lets say we represent a pixel (x,y) with node [x,y]). Obviously, pixels
+that collide with chart components or other flowlines will have no corresponding nodes. Since
+we are interested only in orthogonal paths, we create edges from each node to its four
+orthogonal neighbours (ie. [x,y-1], [x-1,y], [x,y+1], [x+1,y]). The problem of finding
+orthogonal flow line from point (x,y) to (x&#39;,y&#39;) can now be treated as the problem of finding
+a path from node [x,y] to [x&#39;,y&#39;], which can be easily solved by <a href="http://en.wikipedia.org/wiki/Graph_search_algorithm">Graph Search Algorithms</a>.</p>
+<h2>Dijkstra&#39;s Algorithm</h2>
+<p>We would also like the flowlines to look aesthetically pleasing. Although its slightly difficult
+to define, mathematically, what could be aesthetically pleasing, i reason that the
+following two parameters can create good flowlines.</p>
+<ol>
+<li><em>Minimize Path Length</em> : Obviously, shorter lines connecting chart components are easier to
+read.</li>
+<li><em>Minimize Bends</em>  : Connecting lines which have too many bends are hard to follow. The
+problem with orthogonal paths is that the shortest distance between any two points is
+given by <a href="http://en.wikipedia.org/wiki/Manhattan_distance">manhattan distance</a>. This means that there could be several paths with
+shortest length. In the absence of obstacles, any of the shortest path can have atmost
+about min(abs(x&#39;-x), abs(y&#39;-y)) bends (blind guess formula no proofs :P), therefore
+minimizing bends is important.</li>
+</ol>
+<p>For a given path, if we define path cost function g(n) as the sum of distance to node n from
+starting point along the given path and the number of bends along the path from starting point
+to n, then we would like our algorithm the choose the path with least path cost function for
+the end point. We use the <a href="http://en.wikipedia.org/wiki/Dijkstra&#39;s_algorithm">dijkstra&#39;s algorithm</a> with path cost = g(n) = distance + #of bends
+to do this.</p>
+<p>The problem with this approach is that, standard Dijkstra algorithm works by extending optimal
+partial paths. In simple graph search, when there are several optimal partial paths of the same
+cost, the choice between one of these for extension doesnt affect the optimality of the final
+path. But however, in our case, this is not true (again, due to the <a href="http://en.wikipedia.org/wiki/Manhattan_distance">Taxicab Geometry</a>).
+Consider the following:</p>
+<pre><code>A----(B)
+|     |
+|     |
+|     |
+D-----C
+|
+|
+|
+(E)</code></pre>
+<p>We are trying to connect B to E. At point D, there are two optimal partial paths
+BAD and BCD of the same cost (cost=length+bends=2+1). If the algorithm
+chooses path BCD for extension the final path BCDE(cost=length+bends=3+2) is suboptimal since
+there is path BADE(cost=length+bends=3+1) with fewer bends. Thus we need to teach our algorithm
+to make the choice in such a way that the extended path is also optimal.</p>
+<p>In Dijkstra, we extend a path to a node only if the optimal partial path (if one has aleady
+been computed) at that point, from the start, has greater cost than the new path that
+would be generated after extension. If we introduce an estimate of the minimum number of bends
+required to reach the target also in the above condition ie. we extend only if the sum of cost
+of optimal partial path and estimate of min bends to target is greater than that for the new
+path that would be generated, then we can avoid the previously mentioned problem. Thus, in the
+previous example, if path BAD has already been computed and BC is being considered, then we do
+not extend BC to BCD since atleast 1 more bend is required to reach E along BCD wheras BAD 
+requires no more bends to reach E. Conversely, if BCD has already been computed and BA is being
+considered, then we detach D from BCD and extend BA to BAD since it has lower bends estimate.</p>
+<p>The minimum bends-to-target estimate can be easily computed by checking the direction of the partial
+path at the end point and the relative position of the target eg: if target is along same direction
+and in front of the end point then min-bends-to-target is 0, there are three other such cases.</p>
+<h2>Making it Faster</h2>
+<p>Dijkstra&#39;s algorithm is sort of like hitting the pinata, it&#39;d go about searching all over the
+canvas to find the end point. If we have some more information about how warm or cold each point
+is, with respect to the target, we can avoid searching in directions that we know to be less
+likely to lead us to the endpoint. We do this by implementing an <a href="http://en.wikipedia.org/wiki/A-star_algorithm">A* Search</a>, which is a generalization
+of Dijkstra. We use a heuristic function h(n) = manhattan-distance(n,target)+min-bends(n,target),
+so that the search would try find paths within or close to a rectangle with the start and end points
+at opposite corners and are likely to have fewer bends.</p>
+<h2>Implementation</h2>
+<p><img src="/images/dijkstra_demo.png" alt="Dijkstra implementation screenshot"></p>
+<script src="https://gist.github.com/azeem/1521549.js"></script>
+
+<p><a href="https://gist.github.com/1521549">This</a> is a hacky little demo with animation. Hit the play button to run the animation.
+Red dots are nodes which have been considered and Yellow dots are the nodes in the queue. 
+Uncomment <code>n.heuristic = 0;</code> line in dijkstra function to switch to simple dijkstra without
+A*.</p>
+<h2>The Wheel </h2>
+<p>A very interesting optimization to this is to reduce the search to the orthogonal
+visibility Graph (a graph containing points of interest, such as vertices, with arcs drawn
+between nodes that can see each other). This and a more formal approach to this problem is
+detailed in this paper: <a href="http://ww2.cs.mu.oz.au/~pjs/papers/gd09.pdf">Orthogonal Connector Routing</a>. The Authors of the paper have
+a C++ implementation of their technique in <a href="http://adaptagrams.sourceforge.net/libavoid/">libavoid</a> libaray.</p>
+<p>I dot not have proofs for the correctness, optimality etc. for anything, though it seems to
+work in the simple prototype. Any comments are welcome.</p>
+    </div>
+    <hr/>
+    <div id="disqus_thread">
+    </div>
+
+
+        </div>
+        <div class="sidebar">
+            <div class="sidebar-container">
+                <ul class="nav">
+                    <li><a href="/"><i class="icon-home"></i> <span class="icon-text">Home</span></a></li>
+                    <li><a href="/about.html"><i class="icon-user"></i> <span class="icon-text">About</span></a></li>
+                    <li><a href="/projects.html"><i class="icon-beaker"></i> <span class="icon-text">Projects</span></a></li>
+                    <li><a href="/posts"><i class="icon-comment"></i> <span class="icon-text">Blog</span></a></li>
+                </ul>
+
+                <ul class="social">
+                    <li><a href="https://github.com/azeem"><i class="icon-github"></i> <span class="icon-text">Github</span></a></li>
+                    <li><a href="http://in.linkedin.com/in/azeemarshad/"><i class="icon-linkedin"></i> <span class="icon-text">LinkedIn</span></a></li>
+                </ul>
+            </div>
+        </div>
+        
+    <script type="text/javascript">
+        var disqus_shortname = "azeemarshad";
+        var disqus_developer = 1;
+        var disqus_identifier = "post#diagram_connector_routing";
+        var disqus_url = "http://azeemarshad.in/posts/diagram_connector_routing.html";
+    </script>
+    <script type="text/javascript" src="http://azeemarshad.disqus.com/embed.js"></script>
+
+    </body>
+</html>
