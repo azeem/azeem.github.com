@@ -76,15 +76,6 @@ code {
     font-size: 0.85em;
 }
 
-.thumbnail {
-    width: 128px;
-    height: 128px;
-    float: right;
-    border: 5px solid #E0E0E0;
-    border-radius: 5px;
-    margin: 0px 10px;
-}
-
 /* Side bar styling */
 
 .sidebar {
@@ -167,6 +158,15 @@ code {
     border-radius: 5px;
     margin: 10px auto;
     display: block;
+}
+
+.main-container .thumbnail {
+    width: 128px;
+    height: 128px;
+    float: right;
+    border: 5px solid #E0E0E0;
+    border-radius: 5px;
+    margin: 0px 10px;
 }
 
 #masthead {
