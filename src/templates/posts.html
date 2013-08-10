@@ -1,0 +1,22 @@
+{% extends "innerbase.html" %}
+
+{% block innerbody %}
+    <h1><a href="{{link}}">{{title}}</a></h1>
+    <div class="sub-text small">{{publishTime|date("j F Y, H:m")}} | <a href="{{link}}">Permanent Link</a></div>
+    <div class="body">
+        {{ body|raw }}
+    </div>
+    <hr/>
+    <div id="disqus_thread">
+    </div>
+{% endblock %}
+
+{% block bodyend %}
+    <script type="text/javascript">
+        var disqus_shortname = "{{ disqus.shortname }}";
+        var disqus_developer = {{ disqus.developer }};
+        var disqus_identifier = "post#{{ basename }}";
+        var disqus_url = "{{ link }}";
+    </script>
+    <script type="text/javascript" src="http://{{ disqus.shortname }}.disqus.com/embed.js"></script>
+{% endblock %}

@@ -1,0 +1,8 @@
+---
+title: Blog
+---
+<ul class="main-list">
+    {% for file in fileContexts|having("category","blog")|sortBy("publishTime")|reverse %}
+        <li><span class="list-prefix">{{file.publishTime|date("d M Y")}}</span> <a href="{{file.link}}">{{file.title}}</a></li>
+    {% endfor %}
+</ul>
