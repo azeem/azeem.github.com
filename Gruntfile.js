@@ -37,7 +37,10 @@ module.exports = function(grunt) {
     },
     copy: {
         site: {
-            files: [{expand: true, cwd:"src/", src:["assets/**/*", "images/**/*"], dest: "site"}]
+            files: [
+                {expand: true, cwd:"src/", src:["assets/**/*", "images/**/*"], dest: "site"},
+                {src:"src/CNAME", dest: "site/CNAME"}
+            ]
         }
     },
     watch: {
@@ -49,10 +52,10 @@ module.exports = function(grunt) {
   });
 
   // Actually load this plugin's task(s).
-  grunt.loadTasks('../jstatic/tasks');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('jstatic');
 
   grunt.registerTask('default', ["clean", "jstatic", "copy"]);
   grunt.registerTask('w', ["default", "watch"]);
