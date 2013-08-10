@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title></title>
+        <link></link>
+        <description></description>
+        
+            <item>
+                <title>Yago Loader</title>
+                <link>http://azeemarshad.in/posts/yago_loader.html</link>
+                <guid>http://azeemarshad.in/posts/yago_loader.html</guid>
+                <description>
+                    <![CDATA[
+                        Yago is a huge semantic knowledge base, containing millions of facts about millions of entities (People, Organizations, Places etc.). I have been playing around with Yago some time back. I was going through the stuff again this weekend and I came across this small loader program that I had written back then.<a href='http://azeemarshad.in/posts/yago_loader.html'> ... read more</a>
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
+                <title>Diagram connector routing</title>
+                <link>http://azeemarshad.in/posts/diagram_connector_routing.html</link>
+                <guid>http://azeemarshad.in/posts/diagram_connector_routing.html</guid>
+                <description>
+                    <![CDATA[
+                        I have been trying to find some interesting coding stuff to work on, something to get off of the<a href='http://azeemarshad.in/posts/diagram_connector_routing.html'> ... read more</a>
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
+                <title>N Queens Puzzle</title>
+                <link>http://azeemarshad.in/posts/n-queens-puzzle.html</link>
+                <guid>http://azeemarshad.in/posts/n-queens-puzzle.html</guid>
+                <description>
+                    <![CDATA[
+                        I've been reading this great book, Structure and Interpretation <a href='http://azeemarshad.in/posts/n-queens-puzzle.html'> ... read more</a>
+                    ]]>
+                </description>
+            </item>
+        
+    </channel>
+</rss>
