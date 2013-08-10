@@ -1,0 +1,65 @@
+<!DOCTYPE HTML">
+<html lang="en">
+    <head>
+        <title>Yago Loader | Azeem Arshad</title>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/css/fontello.css"/>
+    </head>
+    <body>
+        <div class="main-container">
+            
+    <h1 id="light-masthead">Azeem Arshad</h1>
+    
+    <h1><a href="http://azeemarshad.in/posts/yago_loader.html">Yago Loader</a></h1>
+    <div class="sub-text small">19 March 2012, 04:03 | <a href="http://azeemarshad.in/posts/yago_loader.html">Permanent Link</a></div>
+    <div class="body">
+        <p><a href="http://www.mpi-inf.mpg.de/yago-naga/yago/">Yago</a> is a huge semantic knowledge base, containing millions of facts about millions of entities (People, Organizations, Places etc.). I have been playing around with Yago some time back. I was going through the stuff again this weekend and I came across this small loader program that I had written back then.</p>
+<p>The Yago core database is a 3.4Gb <a href="http://www.mpi-inf.mpg.de/yago-naga/yago/downloads.html">download</a>. It comes as a bunch of TSV (Tab Separated Values) files, one file for each predicate (Facts in knowledge bases are represented as triplets of subject, predicate, object). Each file contains tab separated ID, subject and predicate on every line. There is a <a href="http://www.mpi-inf.mpg.de/yago-naga/yago/download/yago2/yago2converters_20111027.7z">converter tool</a> also, that can load the TSV data into a database, but I wanted to try loading the files using <a href="http://dev.mysql.com/doc/refman/5.1/en/load-data.html">MySQL LOAD DATA INFILE</a> statement. LOAD DATA INFILE lets you bulk load a file into a table, thus ridding the need to run INSERT statements.  My loader program simply reads a TSV file and creates a temporary file containing the rows to be loaded into the database table and then runs LOAD DATA INFILE statement.</p>
+<script src="https://gist.github.com/azeem/1103406.js"></script>
+
+<p>Using the <code>--exclude</code> option and <code>--log</code> option with the same argument will exclude files in the log. This would allow us to stop the loading at any point and resume, some time later, with the TSV file that it stopped at.</p>
+    </div>
+    <hr/>
+    <div id="disqus_thread">
+    </div>
+
+
+        </div>
+        <div class="sidebar">
+            <div class="sidebar-container">
+                <ul class="nav">
+                    <li><a href="/"><i class="icon-home"></i> <span class="icon-text">Home</span></a></li>
+                    <li><a href="/about.html"><i class="icon-user"></i> <span class="icon-text">About</span></a></li>
+                    <li><a href="/projects.html"><i class="icon-beaker"></i> <span class="icon-text">Projects</span></a></li>
+                    <li><a href="/posts"><i class="icon-comment"></i> <span class="icon-text">Blog</span></a></li>
+                </ul>
+
+                <ul class="social">
+                    <li><a href="https://github.com/azeem"><i class="icon-github"></i> <span class="icon-text">Github</span></a></li>
+                    <li><a href="http://in.linkedin.com/in/azeemarshad/"><i class="icon-linkedin"></i> <span class="icon-text">LinkedIn</span></a></li>
+                </ul>
+            </div>
+        </div>
+        
+    <script type="text/javascript">
+        var disqus_shortname = "azeemarshad";
+        var disqus_developer = 0;
+        var disqus_identifier = "post#yago_loader";
+        var disqus_url = "http://azeemarshad.in/posts/yago_loader.html";
+    </script>
+    <script type="text/javascript" src="http://azeemarshad.disqus.com/embed.js"></script>
+
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-43040722-1', 'azeemarshad.in');
+          ga('send', 'pageview');
+
+        </script>
+    </body>
+</html>
