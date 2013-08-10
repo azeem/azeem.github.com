@@ -1,9 +1,25 @@
 <?xml version="1.0"?>
 <rss version="2.0">
     <channel>
-        <title></title>
-        <link></link>
-        <description></description>
+        <title>Azeem Arshad</title>
+        <link>http://azeemarshad.in</link>
+        <description>Azeem Arshad&#39;s Personal Pages</description>
+        
+            <item>
+                <title>Organizing Git Repo for Github User Pages</title>
+                <link>http://azeemarshad.in/posts/organizing_git_for_githubpages.html</link>
+                <guid>http://azeemarshad.in/posts/organizing_git_for_githubpages.html</guid>
+                <description>
+                    <![CDATA[
+                        This site, is hosted on the fantastic Github Pages service. 
+If you are using some tool like jekyll or assemble or my personal project: jstatic
+to generate your static html then you will end up with a bunch of source files (markdown files,
+config files. templates etc.) that the tool uses to generate the site. Managing the source
+files separately is rather cumbersome. Fortunately git has some nice little features that
+makes it easier.<a href='http://azeemarshad.in/posts/organizing_git_for_githubpages.html'> ... read more</a>
+                    ]]>
+                </description>
+            </item>
         
             <item>
                 <title>Yago Loader</title>
@@ -22,7 +38,11 @@
                 <guid>http://azeemarshad.in/posts/diagram_connector_routing.html</guid>
                 <description>
                     <![CDATA[
-                        I have been trying to find some interesting coding stuff to work on, something to get off of the<a href='http://azeemarshad.in/posts/diagram_connector_routing.html'> ... read more</a>
+                        I have been trying to find some interesting coding stuff to work on, something to get off of the
+line of work that i do at my day job, relive the college days :P. This is an interesting
+problem that came up when i tried to dust off one of my old javascript projects. In simple words, the
+problem goes something like this: given a flow chart, how do you automatically render orthogonal
+flow lines without intersections or collisions.<a href='http://azeemarshad.in/posts/diagram_connector_routing.html'> ... read more</a>
                     ]]>
                 </description>
             </item>
@@ -33,7 +53,8 @@
                 <guid>http://azeemarshad.in/posts/n-queens-puzzle.html</guid>
                 <description>
                     <![CDATA[
-                        I've been reading this great book, Structure and Interpretation <a href='http://azeemarshad.in/posts/n-queens-puzzle.html'> ... read more</a>
+                        I've been reading this great book, Structure and Interpretation 
+of Computer Programs for the last few days. The examples are full of really cool math, algorithms, techniques and stuff. Here is an exercise that i managed to solve in scheme, The Eight queens puzzle.<a href='http://azeemarshad.in/posts/n-queens-puzzle.html'> ... read more</a>
                     ]]>
                 </description>
             </item>

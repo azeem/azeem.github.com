@@ -7,6 +7,11 @@ module.exports = function(grunt) {
       options: {
         linkPrefix: "http://azeemarshad.in/",
         extraContext: {
+            meta: {
+                title: "Azeem Arshad",
+                site_link: "http://azeemarshad.in",
+                description: "Azeem Arshad's Personal Pages"
+            },
             disqus: {
                 shortname: "azeemarshad",
                 developer: 0
@@ -55,7 +60,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('jstatic');
+
+  grunt.loadTasks('../jstatic/tasks');
 
   grunt.registerTask('default', ["clean", "jstatic", "copy"]);
   grunt.registerTask('w', ["default", "watch"]);

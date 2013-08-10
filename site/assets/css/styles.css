@@ -40,6 +40,13 @@ blockquote {
     padding-left:10px;
 }
 
+code {
+    font-family: Inconsolata, Consolas, monospace;
+    font-size: 16px;
+    background-color: #E0E0E0;
+    padding: 2px 3px;
+}
+
 /* Generic style elements */
 .sub-text {
     color: #999999;
@@ -176,13 +183,11 @@ blockquote {
 }
 
 #light-masthead {
-    position: scroll;
-    margin: 0px;
+    float: right;
+    margin-top: -10px;
+    margin-right: -10px;
     font-size: 3em;
     letter-spacing: -2px;
-    position: absolute;
     color: #E0E0E0;
-    top: 0px;
-    right: 0px;
     z-index: -1000;
 }

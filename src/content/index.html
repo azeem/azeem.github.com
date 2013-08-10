@@ -4,7 +4,7 @@
 
 <h2>Recent Posts</h2>
 <ul class="main-list">
-    {% for file in fileContexts|having("category","blog")|sortBy("publishTime")|reverse|head(3) %}
+    {% for file in fileContexts|having("category","blog")|sortBy("publishTime")|reverse|head(4) %}
         <li><span class="list-prefix">{{file.publishTime|date("d M Y")}}</span> <a href="{{file.link}}">{{file.title}}</a></li>
     {% endfor %}
     <li><a href="/posts">more ...</a></li>
