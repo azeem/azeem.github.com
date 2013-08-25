@@ -5,7 +5,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     jstatic: {
       options: {
-        linkPrefix: "http://azeemarshad.in/",
         extraContext: {
             meta: {
                 title: "Azeem Arshad",
@@ -17,23 +16,59 @@ module.exports = function(grunt) {
                 developer: 0
             }
         },
+        permalink: {
+            linkPrefix: "http://localhost:8000/",
+        },
         swig: {
-            root: ["./", "src/templates"],
-            layout: "default.html"
+            layout: "src/templates/default.html"
         }
       },
       site: {
         files: [
-            {src: ['src/content/index.html'], dest: "site", formatters: {type: "swig", layout: "simple.html"}},
-            {src: ['src/content/*.html', '!src/content/index.html'], dest: "site"},
-            {src: ['src/content/*.md'],   dest: "site", formatters: ["markdown", "swig"]},
-
-            {src: ['src/content/posts/index.html'], dest: "site/posts"},
-            {src: ['src/content/posts/rss.xml'], dest: "site/posts", outExt: ".xml",
-             formatters: {type: "swig", layout: null}},
-            {src: ['src/content/posts/*.md'],   dest: "site/posts", 
-             preprocessors: ["yafm", "summary"],
-             formatters: ["markdown", {type: "swig", layout: "posts.html"}] }
+            {
+                src: ['src/content/index.html'],
+                dest: "site",
+                generators: [
+                    "yafm",
+                    "permalink",
+                    {type: "swig", layout: "src/templates/simple.html"}
+                ],
+                depends: ["blog_posts"]
+            },
+            {
+                src: ['src/content/*.html', '!src/content/index.html'], 
+                dest: "site"
+            },
+            {
+                src: ['src/content/*.md'],
+                dest: "site",
+                generators: ["yafm", "permalink", "markdown", "swig"]
+            },
+            {
+                src: ['src/content/posts/index.html'], 
+                dest: "site/posts",
+                depends: ["blog_posts"]
+            },
+            {
+                src: ['src/content/posts/rss.xml'], 
+                dest: "site/posts", 
+                outExt: ".xml",
+                generators: [{type: "swig", layout: null}],
+                depends: ["blog_posts"]
+            },
+            {
+                name: "blog_posts",
+                src: ['src/content/posts/*.md'],   
+                dest: "site/posts", 
+                generators: [
+                    "yafm", 
+                    "unpublish",
+                    "permalink", 
+                    "summary", 
+                    "markdown", 
+                    {type: "swig", layout: "src/templates/posts.html"}
+                ]
+            }
         ],
       }
     },
@@ -60,8 +95,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('jstatic');
 
-  grunt.loadTasks('../jstatic/tasks');
+  //grunt.loadTasks('../jstatic/tasks');
 
   grunt.registerTask('default', ["clean", "jstatic", "copy"]);
   grunt.registerTask('w', ["default", "watch"]);

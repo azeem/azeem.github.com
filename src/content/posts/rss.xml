@@ -4,11 +4,11 @@
         <title>{{meta.title}}</title>
         <link>{{meta.site_link}}</link>
         <description>{{meta.description}}</description>
-        {% for post in fileContexts|having("category","blog")|sortBy("publishTime")|reverse %}
+        {% for post in blog_posts|having("category","blog")|sortBy("publishTime")|reverse %}
             <item>
                 <title>{{post.title}}</title>
-                <link>{{post.link}}</link>
-                <guid>{{post.link}}</guid>
+                <link>{{post.permalink}}</link>
+                <guid>{{post.permalink}}</guid>
                 <description>
                     <![CDATA[
                         {{post.summary|raw}}

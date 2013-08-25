@@ -10,7 +10,7 @@
   "license": "BSD",
   "devDependencies": {
     "grunt": "~0.4.1",
-    "jstatic": "~0.1.0",
+    "jstatic": "~2.0.0",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-watch": "~0.5.1",
     "grunt-contrib-copy": "~0.4.1"
