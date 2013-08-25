@@ -17,7 +17,7 @@ module.exports = function(grunt) {
             }
         },
         permalink: {
-            linkPrefix: "http://localhost:8000/",
+            linkPrefix: "http://azeemarshad.in/",
         },
         swig: {
             layout: "src/templates/default.html"
