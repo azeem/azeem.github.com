@@ -7,8 +7,9 @@
         
             <item>
                 <title>Organizing Git Repo for Github User Pages</title>
-                <link>http://localhost:8000/posts/organizing_git_for_githubpages.html</link>
-                <guid>http://localhost:8000/posts/organizing_git_for_githubpages.html</guid>
+                <pubDate>Sat, 10 Aug 2013 14:10:00 +0530</pubDate>
+                <link>http://azeemarshad.in/posts/organizing_git_for_githubpages.html</link>
+                <guid>http://azeemarshad.in/posts/organizing_git_for_githubpages.html</guid>
                 <description>
                     <![CDATA[
                         This site, is hosted on the fantastic Github Pages service. 
@@ -23,8 +24,9 @@ makes it easier.
         
             <item>
                 <title>Yago Loader</title>
-                <link>http://localhost:8000/posts/yago_loader.html</link>
-                <guid>http://localhost:8000/posts/yago_loader.html</guid>
+                <pubDate>Sun, 18 Mar 2012 23:21:00 +0530</pubDate>
+                <link>http://azeemarshad.in/posts/yago_loader.html</link>
+                <guid>http://azeemarshad.in/posts/yago_loader.html</guid>
                 <description>
                     <![CDATA[
                         Yago is a huge semantic knowledge base, containing millions of facts about millions of entities (People, Organizations, Places etc.). I have been playing around with Yago some time back. I was going through the stuff again this weekend and I came across this small loader program that I had written back then.
@@ -34,8 +36,9 @@ makes it easier.
         
             <item>
                 <title>Diagram connector routing</title>
-                <link>http://localhost:8000/posts/diagram_connector_routing.html</link>
-                <guid>http://localhost:8000/posts/diagram_connector_routing.html</guid>
+                <pubDate>Tue, 10 Jan 2012 06:45:00 +0530</pubDate>
+                <link>http://azeemarshad.in/posts/diagram_connector_routing.html</link>
+                <guid>http://azeemarshad.in/posts/diagram_connector_routing.html</guid>
                 <description>
                     <![CDATA[
                         I have been trying to find some interesting coding stuff to work on, something to get off of the
@@ -49,8 +52,9 @@ flow lines without intersections or collisions.
         
             <item>
                 <title>N Queens Puzzle</title>
-                <link>http://localhost:8000/posts/n-queens-puzzle.html</link>
-                <guid>http://localhost:8000/posts/n-queens-puzzle.html</guid>
+                <pubDate>Wed, 22 Jul 2009 00:48:00 +0530</pubDate>
+                <link>http://azeemarshad.in/posts/n-queens-puzzle.html</link>
+                <guid>http://azeemarshad.in/posts/n-queens-puzzle.html</guid>
                 <description>
                     <![CDATA[
                         I've been reading this great book, Structure and Interpretation 

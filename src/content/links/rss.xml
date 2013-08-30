@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>{{meta.title}} | Linklog</title>
+        <link>{{meta.site_link}}/links</link>
+        <description>{{meta.description}}</description>
+        {% for link in linklogs|sortBy("publishTime", 1)|head(20) %}
+            <item>
+                <title>{{link.title}}</title>
+                <pubDate>{{link.publishTime|date("D, d M Y H:i:s")}} +0530</pubDate>
+                <link>{{link.link}}</link>
+                <guid>{{link.link}}</guid>
+                <description>
+                    <![CDATA[
+                        {{link.content|raw}}
+                    ]]>
+                </description>
+            </item>
+        {% endfor %}
+    </channel>
+</rss>

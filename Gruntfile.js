@@ -33,7 +33,7 @@ module.exports = function(grunt) {
                     "permalink",
                     {type: "swig", layout: "src/templates/simple.html"}
                 ],
-                depends: ["blog_posts"]
+                depends: ["blog_posts", "linklogs"]
             },
             {
                 src: ['src/content/*.html', '!src/content/index.html'], 
@@ -68,7 +68,44 @@ module.exports = function(grunt) {
                     "markdown", 
                     {type: "swig", layout: "src/templates/posts.html"}
                 ]
-            }
+            },
+            {
+                name: "linklogs",
+                src: "src/content/links/*.md",
+                generators: [
+                    {type: "yafm", multi: true},
+                    "markdown", 
+                ]
+            },
+            {
+                src: "src/content/links/index.html",
+                dest: "site/links",
+                depends: ["linklogs"],
+                generators: [
+                    "yafm", 
+                    {type:"paginator", pivot: "linklogs", pageSize: 10},
+                    {
+                        type: "destination", 
+                        dest: function(entry, outExt) {
+                            if(entry.page == 1) {
+                                return "index" + outExt;
+                            } else {
+                                return "page_" + entry.page + outExt;
+                            }
+                        }
+                    },
+                    "permalink",
+                    "sequencer",
+                    "swig", 
+                ]
+            },
+            {
+                src: ['src/content/links/rss.xml'], 
+                dest: "site/links", 
+                outExt: ".xml",
+                generators: [{type: "swig", layout: null}],
+                depends: ["linklogs"]
+            },
         ],
       }
     },
@@ -95,9 +132,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('jstatic');
+  //grunt.loadNpmTasks('jstatic');
 
-  //grunt.loadTasks('../jstatic/tasks');
+  grunt.loadTasks('../jstatic/tasks');
 
   grunt.registerTask('default', ["clean", "jstatic", "copy"]);
   grunt.registerTask('w', ["default", "watch"]);

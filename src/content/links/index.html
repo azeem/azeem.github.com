@@ -1,0 +1,30 @@
+---
+title: Linklog
+---
+
+<ul class="main-list">
+{% for link in linklogs|sortBy("publishTime", 1)|pageSlice(page, pageSize) %}
+<li {% if loop.index|alt %}class="alt"{% endif %}>
+        <span class="list-prefix">{{link.publishTime|date("d M Y H:m")}}</span> 
+        <h2>{{link.title}}</h2>
+        <div class="list-content">
+            <a href="{{link.link}}">{{link.link}}</a>
+            {{ link.content|raw }}
+        </div>
+    </li>
+{% endfor %}
+</ul>
+
+<div class="page-nav">
+    {% if pageCount > 1 %}
+        <a href="{{sequence[0].permalink}}">latest</a> &bull; <a href="{{sequence[sequence.length-1].permalink}}">oldest</a>
+    {% endif %}
+
+    {% if prev %}
+        <a class="prev" href="{{prev.permalink}}">&laquo; newer</a>
+    {% endif %}
+
+    {% if next %}
+        <a class="next" href="{{next.permalink}}">older &raquo;</a>
+    {% endif %}
+</div>

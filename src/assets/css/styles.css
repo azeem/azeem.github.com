@@ -67,13 +67,43 @@ code {
 
 .main-list li {
     margin-bottom: 10px;
+    padding: 2px;
+}
+
+.main-list li.alt {
+    background-color: #E8E8E8;
 }
 
 .main-list .list-prefix {
+    float: left;
     width: 95px;
     display: inline-block;
     color: #999999;
     font-size: 0.85em;
+}
+
+.main-list li h2 {
+    margin: 0px;
+}
+
+.main-list .list-content {
+    margin-left: 100px;
+}
+
+.page-nav {
+    margin-top: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.page-nav .prev {
+    position: absolute;
+    left: 0px;
+}
+
+.page-nav .next {
+    position: absolute;
+    right: 0px;
 }
 
 /* Side bar styling */

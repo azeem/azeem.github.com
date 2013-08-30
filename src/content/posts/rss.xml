@@ -4,9 +4,10 @@
         <title>{{meta.title}}</title>
         <link>{{meta.site_link}}</link>
         <description>{{meta.description}}</description>
-        {% for post in blog_posts|having("category","blog")|sortBy("publishTime")|reverse %}
+        {% for post in blog_posts|having("category","blog")|sortBy("publishTime", 1)|head(20) %}
             <item>
                 <title>{{post.title}}</title>
+                <pubDate>{{post.publishTime|date("D, d M Y H:i:s")}} +0530</pubDate>
                 <link>{{post.permalink}}</link>
                 <guid>{{post.permalink}}</guid>
                 <description>
