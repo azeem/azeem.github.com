@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Azeem Arshad | Linklog</title>
+        <link>http://azeemarshad.in/links</link>
+        <description>Azeem Arshad&#39;s Personal Pages</description>
+        
+            <item>
+                <title>HoTT - A textbook on informal homotopy type theory</title>
+                <pubDate>Fri, 30 Aug 2013 12:18:00 +0530</pubDate>
+                <link>https://github.com/HoTT/book</link>
+                <guid>https://github.com/HoTT/book</guid>
+                <description>
+                    <![CDATA[
+                        <p>Open source book on Homotopy type theory.</p>
+<blockquote>
+<p>In mathematical logic and computer science, homotopy type theory (HoTT)
+attempts to give an account of the semantics of intensional type theory 
+using the framework of (abstract) homotopy theory</p>
+</blockquote>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
+                <title>prose.io - A content editor for github</title>
+                <pubDate>Fri, 30 Aug 2013 12:06:00 +0530</pubDate>
+                <link>http://prose.io</link>
+                <guid>http://prose.io</guid>
+                <description>
+                    <![CDATA[
+                        <p>Excellent tool for managing static websites hosted on github.
+Should go really well with <a href="https://github.com/azeem/jstatic">jstatic</a></p>
+<blockquote>
+<p>Prose provides a beatifully simple content authoring environment 
+for CMS-free websites. It&#39;s a web-based interface for managing 
+content on GitHub. Use it to create, edit, and delete files, and
+save your changes directly to GitHub. Host your website on GitHub 
+Pages for free, or set up your own GitHub webhook server.</p>
+</blockquote>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
+                <title>Daim - graffiti-art</title>
+                <pubDate>Fri, 30 Aug 2013 11:32:00 +0530</pubDate>
+                <link>http://daim.org/site/en/</link>
+                <guid>http://daim.org/site/en/</guid>
+                <description>
+                    <![CDATA[
+                        <p>Amazing graffiti art.</p>
+<blockquote>
+<p>Form is created by a few lines, colour becomes an emotion,
+and shapes reminiscient of architectural elements grow and 
+extend into space. Still plains contrast with dynamic 
+elements which divide and cut across the image.</p>
+</blockquote>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
+                <title>Coursera-dl - Coursera download script</title>
+                <pubDate>Wed, 28 Aug 2013 20:22:00 +0530</pubDate>
+                <link>https://github.com/dgorissen/coursera-dl</link>
+                <guid>https://github.com/dgorissen/coursera-dl</guid>
+                <description>
+                    <![CDATA[
+                        <p>Python script that downloads course videos, lectures etc
+from Coursera.</p>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
+                <title>The Future of Programming</title>
+                <pubDate>Tue, 27 Aug 2013 20:22:00 +0530</pubDate>
+                <link>http://vimeo.com/71278954</link>
+                <guid>http://vimeo.com/71278954</guid>
+                <description>
+                    <![CDATA[
+                        <p>Interesting video by Bret Victor, on forgotten
+ideas in PL design. Funny, how he comes on stage
+as an engineer from the 70s.</p>
+
+                    ]]>
+                </description>
+            </item>
+        
+    </channel>
+</rss>
