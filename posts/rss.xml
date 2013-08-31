@@ -6,6 +6,18 @@
         <description>Azeem Arshad&#39;s Personal Pages</description>
         
             <item>
+                <title>jstatic - Flexible static site generation</title>
+                <pubDate>Sat, 31 Aug 2013 12:24:00 +0530</pubDate>
+                <link>http://azeemarshad.in/posts/introducing_jstatic.html</link>
+                <guid>http://azeemarshad.in/posts/introducing_jstatic.html</guid>
+                <description>
+                    <![CDATA[
+                        jstatic is a static html site generation task for grunt. With jstatic i am trying to realize a generic pattern for static site generation tasks, a simple model thats easy to understand, flexible and easily extensible. Like assemble, jstatic is also designed as a grunt task. This is rather convenient, because Grunt provides excellent facilities for lot of the boilerplates tasks (minification, copying assets etc.). This also makes it easier to integrate jstatic for documentation or project pages generation in projects that uses grunt.
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
                 <title>Organizing Git Repo for Github User Pages</title>
                 <pubDate>Sat, 10 Aug 2013 14:10:00 +0530</pubDate>
                 <link>http://azeemarshad.in/posts/organizing_git_for_githubpages.html</link>

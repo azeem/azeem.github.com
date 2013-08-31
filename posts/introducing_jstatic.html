@@ -1,0 +1,168 @@
+<!DOCTYPE HTML">
+<html lang="en">
+    <head>
+        <title>jstatic - Flexible static site generation | Azeem Arshad</title>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/css/fontello.css"/>
+        <link rel=alternate title="Azeem's Blog" type=application/rss+xml href="http://azeemarshad.in/posts/rss.xml"/>
+        <link rel=alternate title="Azeem's Linklog" type=application/rss+xml href="http://azeemarshad.in/links/rss.xml"/>
+    </head>
+    <body>
+        <div class="main-container">
+            
+    <h1 id="light-masthead">Azeem Arshad</h1>
+    
+    <h1><a href="">jstatic - Flexible static site generation</a></h1>
+    <div class="sub-text small">31 August 2013, 12:08 | <a href="">Permanent Link</a></div>
+    <div class="body">
+        <p><a href="https://github.com/azeem/jstatic">jstatic</a> is a static html site generation task for <a href="http://gruntjs.com/">grunt</a>. With jstatic i am trying to realize a generic pattern for static site generation tasks, a simple model thats easy to understand, flexible and easily extensible. Like <a href="https://github.com/assemble/assemble">assemble</a>, jstatic is also designed as a grunt task. This is rather convenient, because Grunt provides excellent facilities for lot of the boilerplates tasks (minification, copying assets etc.). This also makes it easier to integrate jstatic for documentation or project pages generation in projects that uses grunt.</p>
+<h2>Flexible static site generation</h2>
+<p>In my experience, if a generation tool supports any case of the following types of conversion arity, then it can cater to a huge variety of static page generation tasks.</p>
+<ol>
+<li><p><em>One to One</em> - This is the simplest case, where one source file is manipulated, (markdowned, templated etc.) and then written to one destination file. Most typical cases like article pages, blog entries, landing pages etc. fall into this category</p>
+</li>
+<li><p><em>Many to One</em> - Here, contents from multiple files are aggregated into a single destination file. Blog home pages, Article archives, RSS feeds etc. fall into this category.</p>
+</li>
+<li><p><em>One to Many</em> - A single source file producing multiple files. Simplest example for this case is pagination. A single, very long, markdown article may need to be generated in multiple pages.</p>
+</li>
+<li><p><em>Many to Many</em> - I have only so far encountered this as a combination of 2 and 3, specifically, paginated aggregation pages. eg. paginated blog archives.</p>
+</li>
+</ol>
+<h2>jstatic basics</h2>
+<p>The basic concept of jstatic is as follows</p>
+<ol>
+<li>Every <em>Task</em> consists of one or more named Flows.</li>
+<li>A <em>Flow</em> is a conversion for a set of source files, optionally terminating in a disk write. The conversion semantics is specified using a series of Generator applications.</li>
+<li>A <em>Generator</em> is a function that takes a sequence of File Entries (dictionary containing file details) and returns a manipulated sequence of entries.</li>
+<li>Any Flow can have dependency on other flows. The final file entry sequence of the dependency flows are made available to Generators of the current flow. Dependency, thus, also mandates an ordering for exection of Flows.</li>
+</ol>
+<p>The following sections show how jstatic can handle different conversions. Check <a href="http://gruntjs.com/getting-started">Grunt documentation</a> for complete documentation on writing Gruntfile.js configs. </p>
+<h2>One to One</h2>
+<pre><code>                      ______     ___________     __________     ______
+                     |      |   |           |   |          |   |      |
+src/content/*.md ----| yafm |---| permalink |---| markdown |---| swig |--- site/*.html
+                     |______|   |___________|   |__________|   |______|</code></pre>
+<pre><code class="lang-js">grunt.initConfig({
+    jstatic: {
+        mySite: {
+            files: [
+                {
+                    src: &quot;src/content/*.md&quot;,
+                    dest: &quot;site&quot;,
+                    name: &quot;root_files&quot;,
+                    generators: [
+                        &quot;yafm&quot;, &quot;permalink&quot;, &quot;markdown&quot;,
+                        {type:&quot;swig&quot;, layout: &quot;src/template/layout.html&quot;}
+                    ]
+                }
+            ]
+        }
+    }
+});</code></pre>
+<p>The grunt <a href="http://gruntjs.com/configuring-tasks#files-array-format">files array</a> structure makes a convenient way to represent Flows in jstatic. The additional fields specify the flow details. <em>name</em> is an optional unique string that identifies the flow. <em>generators</em> is an array of generators to be applied in this flow.</p>
+<p>This flow starts out with a sequence of all markdown files in the <code>src/content</code> directory. The files are then sequentially passed through the generators. <em>yafm</em> extracts <a href="http://jekyllrb.com/docs/frontmatter/">yaml front matter</a> metadata and puts back the remaining content. <em>permalink</em> generates a permanent link url for the file. <em>markdown</em> applies markdown processor on the file contents. And finally <em>swig</em> sends the file contents to a <a href="http://paularmstrong.github.io/swig/">swig</a> template. The contents of each file is then written at the destination.</p>
+<h2>Many to One</h2>
+<pre><code class="lang-js">grunt.initConfig({
+    jstatic: {
+        mySite: {
+            files: [
+                {
+                    src: &quot;src/content/index.html&quot;,
+                    dest: &quot;site&quot;,
+                    name: &quot;index&quot;,
+                    depends: [&quot;articles&quot;],
+                    generators: [&quot;swig&quot;]
+                },
+                {
+                    src: &quot;src/content/*.md&quot;,
+                    name: &quot;articles&quot;,
+                    generators: [&quot;yafm&quot;, &quot;markdown&quot;]
+                }
+            ]
+        }
+    }
+});</code></pre>
+<p>There are two flows in this example. Our intention is to generate an index.html file which contains a list of articles. The &quot;index&quot; flow specifies that it has dependency on the &quot;articles&quot; flow. (Note that the &quot;articles&quot; flow doesnt have destination ie. no files are written, the flow runs nonetheless and the result is available). Because of the dependency structure, jstatic runs &quot;articles&quot; flow before the &quot;index&quot; flow. During the &quot;index&quot; flow, the list of files from &quot;articles&quot; flow is made available to the generators. The swig generator makes dependency results available inside the templates. Thus index.html written as follows, can generate a list of articles.</p>
+<pre><code>&lt;ul&gt;
+{% for article in articles %}
+    &lt;li&gt;{{ article.title }} {{ article.content }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;</code></pre>
+<p>The many to one mapping is possible here because the entire result of one flow available to each file in another flow.</p>
+<h2>One to Many</h2>
+<pre><code class="lang-js">grunt.initConfig({
+    jstatic: {
+        mySite: {
+            files: [
+                {
+                    src: &quot;src/content/index.html&quot;,
+                    dest: &quot;site&quot;,
+                    name: &quot;index&quot;,
+                    depends: [&quot;links&quot;],
+                    generators: [
+                        {type: &quot;paginator&quot;, pivot: &quot;links&quot;, pageSize: 5},
+                        &quot;swig&quot;
+                    ]
+                },
+                {
+                    src: &quot;src/content/links.md&quot;,
+                    name: &quot;links&quot;,
+                    generators: [{type: &quot;yafm&quot;, multi: true}, &quot;markdown&quot;]
+                }
+            ]
+        }
+    }
+});</code></pre>
+<p>This case is very similar to the previous case. Here we use yafm multi mode, this treats the file as a concatenation of multiple files, each with separate front matter. yafm splits the file into multiple files one for each front matter entry. The &quot;index&quot; flow uses <em>paginator</em>, this generator uses the length of a dependency result to generate clones of each page in the current flow (as many clones as the number of pages required to accomodate the length). Each clone will have a page index property. Inside the swig template, this page index can be used to obtain a slice of the dependency result for that page and generate html for it.</p>
+<p>One to Many is possible here because generators can modify the size of the sequence of file entries that is passed to the next generator.</p>
+<h2>Many to Many</h2>
+<p>One example for this is the case where, in the previous example, the &quot;links&quot; flow would take multiple files instead of one eg. src: <code>&quot;src/content/*.md&quot;</code></p>
+<h2>Conclusion</h2>
+<p>I have been using jstatic to generate <a href="https://github.com/azeem/azeem.github.com/blob/source/Gruntfile.js">this site</a>, evolving it on the way. And i am quite pleased with the results. Checkout the <a href="https://github.com/azeem/jstatic">code and documentation on github</a>. Install <a href="https://npmjs.org/package/jstatic">jstatic with npm</a>.</p>
+
+    </div>
+    <hr/>
+    <div id="disqus_thread">
+    </div>
+
+
+        </div>
+        <div class="sidebar">
+            <div class="sidebar-container">
+                <ul class="nav">
+                    <li><a href="/"><i class="icon-home"></i> <span class="icon-text">Home</span></a></li>
+                    <li><a href="/about.html"><i class="icon-user"></i> <span class="icon-text">About</span></a></li>
+                    <li><a href="/projects.html"><i class="icon-beaker"></i> <span class="icon-text">Projects</span></a></li>
+                    <li><a href="/links"><i class="icon-link"></i> <span class="icon-text">Linklog</span></a></li>
+                    <li><a href="/posts"><i class="icon-comment"></i> <span class="icon-text">Blog</span></a></li>
+                </ul>
+
+                <ul class="social">
+                    <li><a href="https://github.com/azeem"><i class="icon-github"></i> <span class="icon-text">Github</span></a></li>
+                    <li><a href="http://in.linkedin.com/in/azeemarshad/"><i class="icon-linkedin"></i> <span class="icon-text">LinkedIn</span></a></li>
+                </ul>
+            </div>
+        </div>
+        
+    <script type="text/javascript">
+        var disqus_shortname = "azeemarshad";
+        var disqus_developer = 0;
+        var disqus_identifier = "post#introducing_jstatic";
+        var disqus_url = "";
+    </script>
+    <script type="text/javascript" src="http://azeemarshad.disqus.com/embed.js"></script>
+
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-43040722-1', 'azeemarshad.in');
+          ga('send', 'pageview');
+
+        </script>
+    </body>
+</html>
