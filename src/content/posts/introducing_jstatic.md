@@ -3,7 +3,7 @@ title: Introducing jstatic
 published: false
 ---
 
-[jstatic](https://github.com/azeem/jstatic) is static html site generation task for [grunt](http://gruntjs.com/). With jstatic i am trying to realize a generic pattern for static site generation tasks, a simple model thats easy to understand, flexible and easily extensible. Like [assemble](https://github.com/assemble/assemble), jstatic is also designed as a grunt task. This is rather convenient, because Grunt provides excellent facilities for lot of the boilerplates tasks (minification, copying assets etc.). This also makes easier to integrate jstatic for documentation or project pages generation in projects that uses grunt. I have been using jstatic to generate this site, and i am quite pleased with the results. Here i'll discuss some of the basics of it.
+[jstatic](https://github.com/azeem/jstatic) is a static html site generation task for [grunt](http://gruntjs.com/). With jstatic i am trying to realize a generic pattern for static site generation tasks, a simple model thats easy to understand, flexible and easily extensible. Like [assemble](https://github.com/assemble/assemble), jstatic is also designed as a grunt task. This is rather convenient, because Grunt provides excellent facilities for lot of the boilerplates tasks (minification, copying assets etc.). This also makes it easier to integrate jstatic for documentation or project pages generation in projects that uses grunt.
 
 Flexible static site generation
 -------------------------------
@@ -90,7 +90,7 @@ grunt.initConfig({
 });
 ```
 
-There are two flows in this example. Our intention is to generate an index.html file which contains a list of articles. The "index" flow specifies that it has dependency on the "articles" flow. (Note that the "articles" flow doesnt have destination ie. no files are written, the flow runs nonetheless and the result is available). Because of the dependency structure, jstatic runs "articles" flow before the "index" flow. During the "index" flow, the list of files from "articles" flow is made available to the generators. The swig generator makes dependency results available inside the templates. Thus index.html written as follows, can generate a list of articles (many to one).
+There are two flows in this example. Our intention is to generate an index.html file which contains a list of articles. The "index" flow specifies that it has dependency on the "articles" flow. (Note that the "articles" flow doesnt have destination ie. no files are written, the flow runs nonetheless and the result is available). Because of the dependency structure, jstatic runs "articles" flow before the "index" flow. During the "index" flow, the list of files from "articles" flow is made available to the generators. The swig generator makes dependency results available inside the templates. Thus index.html written as follows, can generate a list of articles.
 
 ```
 <ul>
@@ -130,11 +130,16 @@ grunt.initConfig({
 });
 ```
 
-This case is very similar to the previous case. Here we use yafm multi mode, this treats the file as a concatenation of multiple files each with separate front matter. yafm splits the file into multiple files one for each front matter entry. The "index" flow uses *paginator*, this generator uses the length of a dependency result to generate clones of each page in the current flow (as many clones as the number of pages required to accomodate the length). Each clone will have a page index property. Inside the swig template, this page index can be used to obtain a slice of the dependency result for that page and generate html for it.
+This case is very similar to the previous case. Here we use yafm multi mode, this treats the file as a concatenation of multiple files, each with separate front matter. yafm splits the file into multiple files one for each front matter entry. The "index" flow uses *paginator*, this generator uses the length of a dependency result to generate clones of each page in the current flow (as many clones as the number of pages required to accomodate the length). Each clone will have a page index property. Inside the swig template, this page index can be used to obtain a slice of the dependency result for that page and generate html for it.
 
-One to Many is possible here because generators can modify the size of sequence of file entries that is passed to the next generator.
+One to Many is possible here because generators can modify the size of the sequence of file entries that is passed to the next generator.
 
 Many to Many
 ------------
 
-This is the case where, in the previous example, the "links" flow would take multiple files instead of one eg. src: `"src/content/*.md"`
+One example for this is the case where, in the previous example, the "links" flow would take multiple files instead of one eg. src: `"src/content/*.md"`
+
+Conclusion
+----------
+
+I have been using jstatic to generate this site, evolving it on the way. And i am quite pleased with the results. Checkout the [code and documentation on github](https://github.com/azeem/jstatic). Install [jstatic with npm](https://npmjs.org/package/jstatic).
