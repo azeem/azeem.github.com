@@ -1,6 +1,7 @@
 ---
 title: "jstatic - Flexible static site generation"
-published: false
+publishTime: 2013-08-31 12:24:00
+category: blog
 ---
 
 [jstatic](https://github.com/azeem/jstatic) is a static html site generation task for [grunt](http://gruntjs.com/). With jstatic i am trying to realize a generic pattern for static site generation tasks, a simple model thats easy to understand, flexible and easily extensible. Like [assemble](https://github.com/assemble/assemble), jstatic is also designed as a grunt task. This is rather convenient, because Grunt provides excellent facilities for lot of the boilerplates tasks (minification, copying assets etc.). This also makes it easier to integrate jstatic for documentation or project pages generation in projects that uses grunt.
@@ -63,7 +64,7 @@ grunt.initConfig({
 
 The grunt [files array](http://gruntjs.com/configuring-tasks#files-array-format) structure makes a convenient way to represent Flows in jstatic. The additional fields specify the flow details. *name* is an optional unique string that identifies the flow. *generators* is an array of generators to be applied in this flow.
 
-This flow starts out with a sequence of all markdown files in the `src/content` directory. The files are then sequentially passed through the generators. *yafm* extracts [yaml front matter](http://jekyllrb.com/docs/frontmatter/) metadata and puts back the remaining content. *permalink* generates a permanent link url for the file. *markdown* applies markdown processor on the file contents. And finally *swig* sends the file contents to a swig template. The contents of each file is then written at the destination.
+This flow starts out with a sequence of all markdown files in the `src/content` directory. The files are then sequentially passed through the generators. *yafm* extracts [yaml front matter](http://jekyllrb.com/docs/frontmatter/) metadata and puts back the remaining content. *permalink* generates a permanent link url for the file. *markdown* applies markdown processor on the file contents. And finally *swig* sends the file contents to a [swig](http://paularmstrong.github.io/swig/) template. The contents of each file is then written at the destination.
 
 Many to One
 -----------
@@ -142,4 +143,4 @@ One example for this is the case where, in the previous example, the "links" flo
 Conclusion
 ----------
 
-I have been using jstatic to generate this site, evolving it on the way. And i am quite pleased with the results. Checkout the [code and documentation on github](https://github.com/azeem/jstatic). Install [jstatic with npm](https://npmjs.org/package/jstatic).
+I have been using jstatic to generate [this site](https://github.com/azeem/azeem.github.com/blob/source/Gruntfile.js), evolving it on the way. And i am quite pleased with the results. Checkout the [code and documentation on github](https://github.com/azeem/jstatic). Install [jstatic with npm](https://npmjs.org/package/jstatic).

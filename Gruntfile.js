@@ -66,7 +66,7 @@ module.exports = function(grunt) {
                     "permalink", 
                     "summary", 
                     "markdown", 
-                    {type: "swig", layout: "src/templates/posts.html"}
+                    {type: "swig", layoutOnly: true, layout: "src/templates/posts.html"}
                 ]
             },
             {
