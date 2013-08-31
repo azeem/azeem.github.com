@@ -1,5 +1,5 @@
 ---
-title: Introducing jstatic
+title: "jstatic - Flexible static site generation"
 published: false
 ---
 
