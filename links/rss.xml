@@ -6,6 +6,37 @@
         <description>Azeem Arshad&#39;s Personal Pages</description>
         
             <item>
+                <title>altJS - Web coding without javascript</title>
+                <pubDate>Sat, 31 Aug 2013 23:02:00 +0530</pubDate>
+                <link>http://altjs.org/</link>
+                <guid>http://altjs.org/</guid>
+                <description>
+                    <![CDATA[
+                        <p>A Comprehensive list of compile-to-javascript languages and other
+projects that tries to enhance/fix things in javascript.</p>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
+                <title>Hakyll - Haskell library for generating static sites</title>
+                <pubDate>Sat, 31 Aug 2013 22:55:00 +0530</pubDate>
+                <link>http://jaspervdj.be/hakyll/</link>
+                <guid>http://jaspervdj.be/hakyll/</guid>
+                <description>
+                    <![CDATA[
+                        <blockquote>
+<p>Hakyll is a Haskell library for generating static sites, mostly aimed
+at small-to-medium sites and personal blogs. It is written in a very 
+configurable way and uses an xmonad-like DSL for configuration.</p>
+</blockquote>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
                 <title>HoTT - A textbook on informal homotopy type theory</title>
                 <pubDate>Fri, 30 Aug 2013 12:18:00 +0530</pubDate>
                 <link>https://github.com/HoTT/book</link>
