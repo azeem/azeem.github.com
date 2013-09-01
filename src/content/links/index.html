@@ -5,10 +5,10 @@ title: Linklog
 <ul class="main-list">
 {% for link in linklogs|sortBy("publishTime", 1)|pageSlice(page, pageSize) %}
 <li {% if loop.index|alt %}class="alt"{% endif %}>
-        <span class="list-prefix">{{link.publishTime|date("d M Y H:m")}}</span> 
+        <span id="link{{loop.index}}" class="list-prefix">{{link.publishTime|date("d M Y H:m")}}</span> 
         <h2>{{link.title}}</h2>
         <div class="list-content">
-            <a href="{{link.link}}">{{link.link}}</a>
+            <a href="{{link.link}}">{{link.link|truncate(65, "…")}}</a>
             {{ link.content|raw }}
         </div>
     </li>
