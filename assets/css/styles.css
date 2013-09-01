@@ -221,3 +221,13 @@ code {
     color: #E0E0E0;
     z-index: -1000;
 }
+
+.star {
+    margin: 0px 5px;
+    padding: 0px 3px;
+    color: #2B64A6;
+}
+
+.star:hover {
+    background-color: #EBEBEB;
+}
