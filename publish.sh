@@ -1,3 +1,11 @@
 #!/usr/bin/sh
 
-echo "hello world"
+git pull --rebase
+grunt
+if [ $? -eq 0 ]; then
+    git commit -a -m "publishing: $(date)"
+    git push
+    git subtree push --prefix=site/ origin master
+else
+    echo "Not published due to build fail"
+fi
