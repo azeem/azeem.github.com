@@ -6,13 +6,31 @@
         <description>Azeem Arshad&#39;s Personal Pages</description>
         
             <item>
+                <title>K2pdfopt: PDF to Kindle tool</title>
+                <pubDate>Mon, 02 Sep 2013 10:24:00 +0530</pubDate>
+                <link>http://www.willus.com/k2pdfopt/</link>
+                <guid>http://www.willus.com/k2pdfopt/</guid>
+                <description>
+                    <![CDATA[
+                        <p>Excellent commandline tool to optimize PDFs for viewing in kindle. 
+Nicely optimizes 2 column layout in academic publications. Also comes
+with OCR support, which enables text selection and annotation in the
+optimized PDF (though the conversion becomes significantly slower).
+Available for Linux, Windows and Mac.</p>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
                 <title>Clay Shirky: How the Internet will (one day) transform government</title>
-                <pubDate>Sat, 31 Aug 2013 23:02:00 +0530</pubDate>
+                <pubDate>Sun, 01 Sep 2013 23:02:00 +0530</pubDate>
                 <link>http://www.ted.com/talks/clay_shirky_how_the_internet_will_one_day_transform_government.html?embed=true</link>
                 <guid>http://www.ted.com/talks/clay_shirky_how_the_internet_will_one_day_transform_government.html?embed=true</guid>
                 <description>
                     <![CDATA[
-                        <p>TED Talk by Clay Shirky, where he discusses how the open source code development model could transform law making, democratic process.</p>
+                        <p>TED Talk by Clay Shirky, where he discusses how the open source code
+development model could transform law making, democratic process.</p>
 
                     ]]>
                 </description>
