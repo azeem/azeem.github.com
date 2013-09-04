@@ -15,7 +15,7 @@
     <h1 id="light-masthead">Azeem Arshad</h1>
     
     <h1><a href="">Yago Loader</a></h1>
-    <div class="sub-text small">18 March 2012, 23:03 | <a href="">Permanent Link</a></div>
+    <div class="sub-text small">18 March 2012, 23:03 | <a href="">Permanent Link</a> | <a href="#disqus_thread">Comments</a></div>
     <div class="body">
         <p><a href="http://www.mpi-inf.mpg.de/yago-naga/yago/">Yago</a> is a huge semantic knowledge base, containing millions of facts about millions of entities (People, Organizations, Places etc.). I have been playing around with Yago some time back. I was going through the stuff again this weekend and I came across this small loader program that I had written back then.</p>
 <p>The Yago core database is a 3.4Gb <a href="http://www.mpi-inf.mpg.de/yago-naga/yago/downloads.html">download</a>. It comes as a bunch of TSV (Tab Separated Values) files, one file for each predicate (Facts in knowledge bases are represented as triplets of subject, predicate, object). Each file contains tab separated ID, subject and predicate on every line. There is a <a href="http://www.mpi-inf.mpg.de/yago-naga/yago/download/yago2/yago2converters_20111027.7z">converter tool</a> also, that can load the TSV data into a database, but I wanted to try loading the files using <a href="http://dev.mysql.com/doc/refman/5.1/en/load-data.html">MySQL LOAD DATA INFILE</a> statement. LOAD DATA INFILE lets you bulk load a file into a table, thus ridding the need to run INSERT statements.  My loader program simply reads a TSV file and creates a temporary file containing the rows to be loaded into the database table and then runs LOAD DATA INFILE statement.</p>
