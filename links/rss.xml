@@ -6,6 +6,24 @@
         <description>Azeem Arshad&#39;s Personal Pages</description>
         
             <item>
+                <title>Tessel: Javascript microcontroller</title>
+                <pubDate>Thu, 05 Sep 2013 20:36:00 +0530</pubDate>
+                <link>http://technical.io/</link>
+                <guid>http://technical.io/</guid>
+                <description>
+                    <![CDATA[
+                        <blockquote>
+<p>Tessel is an Internet-connected microcontroller for software developers.
+Tessel runs JavaScript right on the device—no server necessary. Use your
+own IDE and libraries to program it, just like web development. Uploading
+new firmware is as easy as tessel push!</p>
+</blockquote>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
                 <title>K2pdfopt: PDF to Kindle tool</title>
                 <pubDate>Mon, 02 Sep 2013 10:24:00 +0530</pubDate>
                 <link>http://www.willus.com/k2pdfopt/</link>
