@@ -6,6 +6,20 @@
         <description>Azeem Arshad&#39;s Personal Pages</description>
         
             <item>
+                <title>ShareLaTeX: Online LaTeX Editor</title>
+                <pubDate>Fri, 06 Sep 2013 15:47:00 +0530</pubDate>
+                <link>https://www.sharelatex.com/</link>
+                <guid>https://www.sharelatex.com/</guid>
+                <description>
+                    <![CDATA[
+                        <p>Full fledged LaTex editor in browser with preview. Includes templates for different
+kinds of documents. No live update for preview :(</p>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
                 <title>Tessel: Javascript microcontroller</title>
                 <pubDate>Thu, 05 Sep 2013 20:36:00 +0530</pubDate>
                 <link>http://technical.io/</link>
