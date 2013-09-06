@@ -116,7 +116,8 @@ module.exports = function(grunt) {
         site: {
             files: [
                 {expand: true, cwd:"src/", src:["assets/**/*", "images/**/*"], dest: "site"},
-                {src:"src/CNAME", dest: "site/CNAME"}
+                {src:"src/CNAME", dest: "site/CNAME"},
+                {src:"src/foaf.rdf", dest: "site/foaf.rdf"}
             ]
         }
     },
