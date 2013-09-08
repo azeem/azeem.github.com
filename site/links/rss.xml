@@ -6,6 +6,21 @@
         <description>Azeem Arshad&#39;s Personal Pages</description>
         
             <item>
+                <title>Crystal: Programming Language</title>
+                <pubDate>Sun, 08 Sep 2013 18:03:00 +0530</pubDate>
+                <link>http://crystal-lang.org/</link>
+                <guid>http://crystal-lang.org/</guid>
+                <description>
+                    <![CDATA[
+                        <p>Interesting compile-to-native programming language with ruby like
+syntax, C bindings support. Interesting type inference system with
+a union type.</p>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
                 <title>Chirptune: Javascript music composer</title>
                 <pubDate>Sun, 08 Sep 2013 15:10:00 +0530</pubDate>
                 <link>http://chirp.rezoner.net/composer/</link>
