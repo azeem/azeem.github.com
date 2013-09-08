@@ -6,6 +6,19 @@
         <description>Azeem Arshad&#39;s Personal Pages</description>
         
             <item>
+                <title>Chirptune: Javascript music composer</title>
+                <pubDate>Sun, 08 Sep 2013 15:10:00 +0530</pubDate>
+                <link>http://chirp.rezoner.net/composer/</link>
+                <guid>http://chirp.rezoner.net/composer/</guid>
+                <description>
+                    <![CDATA[
+                        <p>Javascript composer for chirp tunes, with programmable sounds.</p>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
                 <title>ShareLaTeX: Online LaTeX Editor</title>
                 <pubDate>Fri, 06 Sep 2013 15:47:00 +0530</pubDate>
                 <link>https://www.sharelatex.com/</link>
