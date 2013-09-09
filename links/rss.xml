@@ -6,6 +6,37 @@
         <description>Azeem Arshad&#39;s Personal Pages</description>
         
             <item>
+                <title>Reversible Computing</title>
+                <pubDate>Mon, 09 Sep 2013 23:54:00 +0530</pubDate>
+                <link>http://en.wikipedia.org/wiki/Reversible_computing</link>
+                <guid>http://en.wikipedia.org/wiki/Reversible_computing</guid>
+                <description>
+                    <![CDATA[
+                        <p>Reversible computing is study of computing models where
+computation is reversible in a physical and logical sense.
+Reversible computing could improve energy efficiency of computers
+beyond the theoretical limits of present day reversible models
+of computation.</p>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
+                <title>Clojure Documentation</title>
+                <pubDate>Mon, 09 Sep 2013 23:52:00 +0530</pubDate>
+                <link>http://clojure-doc.org/</link>
+                <guid>http://clojure-doc.org/</guid>
+                <description>
+                    <![CDATA[
+                        <p>Community driven documentation for <a href="http://clojure.org">Clojure</a>.
+Contains Guides, Tutorials, cookbooks etc.</p>
+
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
                 <title>Crystal: Programming Language</title>
                 <pubDate>Sun, 08 Sep 2013 18:03:00 +0530</pubDate>
                 <link>http://crystal-lang.org/</link>
