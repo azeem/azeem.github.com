@@ -8,11 +8,12 @@
             <item>
                 <title>{{link.title}}</title>
                 <pubDate>{{link.publishTime|date("D, d M Y H:i:s")}} +0530</pubDate>
-                <link>{{link.link}}</link>
+                <link>{{link.permalink}}</link>
                 <guid>{{link.link}}</guid>
                 <description>
                     <![CDATA[
                         {{link.content|raw}}
+                        <a href="{{link.link}}">Link</a>
                     ]]>
                 </description>
             </item>

@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = function(grunt) {
+  var jstatic = require('../jstatic/lib/jstatic.js');
+
   // Project configuration.
   grunt.initConfig({
     jstatic: {
@@ -33,7 +35,7 @@ module.exports = function(grunt) {
                     "permalink",
                     {type: "swig", layout: "src/templates/simple.html"}
                 ],
-                depends: ["blog_posts", "linklogs"]
+                depends: ["blog_posts", "linklogs", "linkPages"]
             },
             {
                 src: ['src/content/*.html', '!src/content/index.html'], 
@@ -74,28 +76,59 @@ module.exports = function(grunt) {
                 src: "src/content/links/*.md",
                 generators: [
                     {type: "yafm", multi: true},
+                    {
+                        // create a slug
+                        type: "inlinegen",
+                        iter: function(entry) {
+                            entry.slug = entry.title
+                                              .toLowerCase()
+                                              .replace(/ /g,'_')
+                                              .replace(/[^\w_]+/g,'')
+                                              .slice(0, 50);
+                        }
+                    },
+                    {
+                        type: "permalink",
+                        link: function(entry, prefix, pathElems, outExt) {
+                            var month = jstatic.utils.monthNames[entry.publishTime.getMonth()].slice(0,3);
+                            return prefix + "links/" + month + entry.publishTime.getFullYear() + outExt + "#" + entry.slug;
+                        }
+                    },
                     "markdown", 
                 ]
             },
             {
+                name: "linkPages",
                 src: "src/content/links/index.html",
                 dest: "site/links",
                 depends: ["linklogs"],
                 generators: [
                     "yafm", 
-                    {type:"paginator", pivot: "linklogs", pageSize: 10},
+                    {
+                        type:"paginator", 
+                        pivot: "linklogs", 
+                        pageBy: function(entry) {
+                            var time = entry.publishTime;
+                            return new Date(time.getFullYear(), time.getMonth());
+                        }
+                    },
                     {
                         type: "destination", 
                         dest: function(entry, outExt) {
                             if(entry.page == 1) {
                                 return "index" + outExt;
                             } else {
-                                return "page_" + entry.page + outExt;
+                                var month = jstatic.utils.monthNames[entry.page.getMonth()].slice(0,3);
+                                return month + entry.page.getFullYear() + outExt;
                             }
                         }
                     },
                     "permalink",
-                    "sequencer",
+                    {
+                        type: "sequencer",
+                        sortBy: "page",
+                        reverse: true
+                    },
                     "swig", 
                 ]
             },

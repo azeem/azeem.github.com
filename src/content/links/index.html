@@ -3,18 +3,18 @@ title: Linklog
 ---
 
 <ul class="main-list">
-{% for link in linklogs|sortBy("publishTime", 1)|pageSlice(page, pageSize) %}
+{% for link in pageItems|sortBy("publishTime", 1) %}
 <li {% if loop.index|alt %}class="alt"{% endif %}>
-        <span id="link{{loop.index}}" class="list-prefix">{{link.publishTime|date("d M Y H:m")}}</span> 
+        <span id="{{link.slug}}" class="list-prefix">{{link.publishTime|date("d M Y H:m")}}</span> 
         <h2>{{link.title}}</h2>
         <div class="list-content">
             <a href="{{link.link}}">{{link.link|truncate(65, "…")}}</a>
+            <a title="link to this item" class="star" href="{{link.permalink}}">&#9733;</a>
             {{ link.content|raw }}
         </div>
     </li>
 {% endfor %}
 </ul>
-
 <div class="page-nav">
     {% if pageCount > 1 %}
         <a href="{{sequence[0].permalink}}">latest</a> &bull; <a href="{{sequence[sequence.length-1].permalink}}">oldest</a>

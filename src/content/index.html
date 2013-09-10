@@ -16,8 +16,8 @@
     <li>
         <span class="list-prefix">{{link.publishTime|date("d M Y")}}</span>
         <a href="{{link.link}}">{{link.title}}</a>
-        <a title="jump to this item in linklog" class="star" href="/links#link{{loop.index}}">&#9733;</a>
+        <a title="jump to this item in linklog" class="star" href="{{link.permalink}}">&#9733;</a>
     </li>
     {% endfor %}
-    <li><a href="/links">more &hellip;</a></li>
+    <li><a href="{{linkPages[0].permalink}}">more &hellip;</a></li>
 </ul>
