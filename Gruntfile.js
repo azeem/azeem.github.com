@@ -129,6 +129,16 @@ module.exports = function(grunt) {
                         sortBy: "page",
                         reverse: true
                     },
+                    {
+                        // create a slug
+                        type: "inlinegen",
+                        iter: function(entry) {
+                            if(entry.seqIndex == 0) {
+                                var path = require("path");
+                                grunt.config.set("link.index", path.basename(entry.destPath));
+                            }
+                        }
+                    },
                     "swig", 
                 ]
             },
@@ -150,7 +160,8 @@ module.exports = function(grunt) {
             files: [
                 {expand: true, cwd:"src/", src:["assets/**/*", "images/**/*"], dest: "site"},
                 {src:"src/CNAME", dest: "site/CNAME"},
-                {src:"src/foaf.rdf", dest: "site/foaf.rdf"}
+                {src:"src/foaf.rdf", dest: "site/foaf.rdf"},
+                {src:"site/links/<%= link.index %>", dest: "site/links/index.html"}
             ]
         }
     },
