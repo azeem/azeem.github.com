@@ -78,8 +78,8 @@ module.exports = function(grunt) {
                     {type: "yafm", multi: true},
                     {
                         // create a slug
-                        type: "inlinegen",
-                        iter: function(entry) {
+                        type: "passthru",
+                        pass: function(entry) {
                             entry.slug = entry.title
                                               .toLowerCase()
                                               .replace(/ /g,'_')
@@ -102,6 +102,7 @@ module.exports = function(grunt) {
                 src: "src/content/links/index.html",
                 dest: "site/links",
                 depends: ["linklogs"],
+                stash: true,
                 generators: [
                     "yafm", 
                     {
@@ -115,12 +116,8 @@ module.exports = function(grunt) {
                     {
                         type: "destination", 
                         dest: function(entry, outExt) {
-                            if(entry.page == 1) {
-                                return "index" + outExt;
-                            } else {
-                                var month = jstatic.utils.monthNames[entry.page.getMonth()].slice(0,3);
-                                return month + entry.page.getFullYear() + outExt;
-                            }
+                            var month = jstatic.utils.monthNames[entry.page.getMonth()].slice(0,3);
+                            return month + entry.page.getFullYear() + outExt;
                         }
                     },
                     "permalink",
@@ -128,16 +125,6 @@ module.exports = function(grunt) {
                         type: "sequencer",
                         sortBy: "page",
                         reverse: true
-                    },
-                    {
-                        // create a slug
-                        type: "inlinegen",
-                        iter: function(entry) {
-                            if(entry.seqIndex == 0) {
-                                var path = require("path");
-                                grunt.config.set("link.index", path.basename(entry.destPath));
-                            }
-                        }
                     },
                     "swig", 
                 ]
@@ -150,7 +137,7 @@ module.exports = function(grunt) {
                 depends: ["linklogs"]
             },
         ],
-      }
+      },
     },
     clean: {
       site: ['site/*'],
@@ -161,7 +148,7 @@ module.exports = function(grunt) {
                 {expand: true, cwd:"src/", src:["assets/**/*", "images/**/*"], dest: "site"},
                 {src:"src/CNAME", dest: "site/CNAME"},
                 {src:"src/foaf.rdf", dest: "site/foaf.rdf"},
-                {src:"site/links/<%= link.index %>", dest: "site/links/index.html"}
+                {src:"<%= jstatic.stash.linkPages[0].destPath %>", dest: "site/links/index.html"}
             ]
         }
     },
