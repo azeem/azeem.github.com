@@ -12,7 +12,149 @@
                 <guid>http://azeemarshad.in/posts/introducing_jstatic.html</guid>
                 <description>
                     <![CDATA[
-                        jstatic is a static html site generation task for grunt. With jstatic i am trying to realize a generic pattern for static site generation tasks, a simple model thats easy to understand, flexible and easily extensible. Like assemble, jstatic is also designed as a grunt task. This is rather convenient, because Grunt provides excellent facilities for lot of the boilerplates tasks (minification, copying assets etc.). This also makes it easier to integrate jstatic for documentation or project pages generation in projects that uses grunt.
+                        
+
+jstatic is a static html site generation task for grunt. With jstatic i am trying to realize a generic pattern for static site generation tasks, a simple model thats easy to understand, flexible and easily extensible. Like assemble, jstatic is also designed as a grunt task. This is rather convenient, because Grunt provides excellent facilities for lot of the boilerplates tasks (minification, copying assets etc.). This also makes it easier to integrate jstatic for documentation or project pages generation in projects that uses grunt.
+
+Flexible static site generation
+-------------------------------
+
+In my experience, if a generation tool supports any case of the following types of conversion arity, then it can cater to a huge variety of static page generation tasks.
+
+1. *One to One* - This is the simplest case, where one source file is manipulated, (markdowned, templated etc.) and then written to one destination file. Most typical cases like article pages, blog entries, landing pages etc. fall into this category
+
+2. *Many to One* - Here, contents from multiple files are aggregated into a single destination file. Blog home pages, Article archives, RSS feeds etc. fall into this category.
+
+3. *One to Many* - A single source file producing multiple files. Simplest example for this case is pagination. A single, very long, markdown article may need to be generated in multiple pages.
+
+4. *Many to Many* - I have only so far encountered this as a combination of 2 and 3, specifically, paginated aggregation pages. eg. paginated blog archives.
+
+jstatic basics
+--------------
+
+The basic concept of jstatic is as follows
+
+1. Every *Task* consists of one or more named Flows.
+2. A *Flow* is a conversion for a set of source files, optionally terminating in a disk write. The conversion semantics is specified using a series of Generator applications.
+3. A *Generator* is a function that takes a sequence of File Entries (dictionary containing file details) and returns a manipulated sequence of entries.
+4. Any Flow can have dependency on other flows. The final file entry sequence of the dependency flows are made available to Generators of the current flow. Dependency, thus, also mandates an ordering for exection of Flows.
+
+The following sections show how jstatic can handle different conversions. Check Grunt documentation for complete documentation on writing Gruntfile.js configs. 
+
+One to One
+----------
+
+```
+                      ______     ___________     __________     ______
+                     |      |   |           |   |          |   |      |
+src/content/*.md ----| yafm |---| permalink |---| markdown |---| swig |--- site/*.html
+                     |______|   |___________|   |__________|   |______|
+
+```
+
+```js
+grunt.initConfig({
+    jstatic: {
+        mySite: {
+            files: [
+            	{
+                    src: "src/content/*.md",
+                    dest: "site",
+                    name: "root_files",
+                    generators: [
+                        "yafm", "permalink", "markdown",
+                        {type:"swig", layout: "src/template/layout.html"}
+                    ]
+                }
+            ]
+        }
+    }
+});
+```
+
+The grunt files array structure makes a convenient way to represent Flows in jstatic. The additional fields specify the flow details. *name* is an optional unique string that identifies the flow. *generators* is an array of generators to be applied in this flow.
+
+This flow starts out with a sequence of all markdown files in the `src/content` directory. The files are then sequentially passed through the generators. *yafm* extracts yaml front matter metadata and puts back the remaining content. *permalink* generates a permanent link url for the file. *markdown* applies markdown processor on the file contents. And finally *swig* sends the file contents to a swig template. The contents of each file is then written at the destination.
+
+Many to One
+-----------
+```js
+grunt.initConfig({
+    jstatic: {
+        mySite: {
+            files: [
+                {
+                    src: "src/content/index.html",
+                    dest: "site",
+                    name: "index",
+                    depends: ["articles"],
+                    generators: ["swig"]
+                },
+            	{
+                    src: "src/content/*.md",
+                    name: "articles",
+                    generators: ["yafm", "markdown"]
+                }
+            ]
+        }
+    }
+});
+```
+
+There are two flows in this example. Our intention is to generate an index.html file which contains a list of articles. The "index" flow specifies that it has dependency on the "articles" flow. (Note that the "articles" flow doesnt have destination ie. no files are written, the flow runs nonetheless and the result is available). Because of the dependency structure, jstatic runs "articles" flow before the "index" flow. During the "index" flow, the list of files from "articles" flow is made available to the generators. The swig generator makes dependency results available inside the templates. Thus index.html written as follows, can generate a list of articles.
+
+```
+<ul>
+{% for article in articles %}
+    <li>{{ article.title }} {{ article.content }}</li>
+{% endfor %}
+</ul>
+```
+
+The many to one mapping is possible here because the entire result of one flow available to each file in another flow.
+
+One to Many
+-----------
+```js
+grunt.initConfig({
+    jstatic: {
+        mySite: {
+            files: [
+                {
+                    src: "src/content/index.html",
+                    dest: "site",
+                    name: "index",
+                    depends: ["links"],
+                    generators: [
+                        {type: "paginator", pivot: "links", pageSize: 5},
+                        "swig"
+                    ]
+                },
+            	{
+                    src: "src/content/links.md",
+                    name: "links",
+                    generators: [{type: "yafm", multi: true}, "markdown"]
+                }
+            ]
+        }
+    }
+});
+```
+
+This case is very similar to the previous case. Here we use yafm multi mode, this treats the file as a concatenation of multiple files, each with separate front matter. yafm splits the file into multiple files one for each front matter entry. The "index" flow uses *paginator*, this generator uses the length of a dependency result to generate clones of each page in the current flow (as many clones as the number of pages required to accomodate the length). Each clone will have a page index property. Inside the swig template, this page index can be used to obtain a slice of the dependency result for that page and generate html for it.
+
+One to Many is possible here because generators can modify the size of the sequence of file entries that is passed to the next generator.
+
+Many to Many
+------------
+
+One example for this is the case where, in the previous example, the "links" flow would take multiple files instead of one eg. src: `"src/content/*.md"`
+
+Conclusion
+----------
+
+I have been using jstatic to generate this site, evolving it on the way. And i am quite pleased with the results. Checkout the code and documentation on github. Install jstatic with npm.
+
                     ]]>
                 </description>
             </item>
@@ -24,12 +166,73 @@
                 <guid>http://azeemarshad.in/posts/organizing_git_for_githubpages.html</guid>
                 <description>
                     <![CDATA[
-                        This site, is hosted on the fantastic Github Pages service. 
+                        
+
+This site, is hosted on the fantastic Github Pages service. 
 If you are using some tool like jekyll or assemble or my personal project: jstatic
 to generate your static html then you will end up with a bunch of source files (markdown files,
 config files. templates etc.) that the tool uses to generate the site. Managing the source
 files separately is rather cumbersome. Fortunately git has some nice little features that
 makes it easier.
+
+Orphan Branches
+---------------
+
+`git checkout` has an `--orphan` switch that lets you create a completely disconnected
+branch.
+
+> Create a new orphan branch, named &lt;new_branch&gt;, started from
+> &lt;start_point&gt; and switch to it. The first commit made on this new
+> branch will have no parents and it will be the root of a new
+> history totally disconnected from all the other branches and
+> commits.
+
+We can use an orphan branch to store unrelated content. Github Project Pages
+documentation suggests this method to store project pages separate from the main
+code branch, but still within the same repo. With Organization and User pages, however, since
+it uses a separate repo itself, the static files are picked up from the master branch.
+Our source files can therefore be maintained in a separate orphan branch.
+
+Subtree
+-------
+
+Copying the static site generator output directory into the master branch and then pushing 
+it separately is again, too much work. The Git subtree feature makes this simpler.
+
+> Subtrees allow subprojects to be included within a subdirectory of the
+> main project, optionally including the subproject's entire history.
+
+So the only thing that we need to do now, is add the master branch as subtree directory
+in our source branch, and configure the tool to ouput to this directory.
+
+The Setup
+---------
+
+1. Create an orphan branch for the source (*source* in this eg: ) and clean up everything
+        git checkout --orphan source
+        rm -rf ,
+2. Add all your source files (markdown, tool config, templates etc)
+3. Commit the code
+        git commit -m "adding the source files"
+4. Add master branch as subtree directory (i'm calling it *site* here). This will create
+   a new commit with subtree details. (Note: I had to install git subtree module
+   separately on my linux machine, not sure if this is part of the main package now)
+        git subtree add --prefix site origin master --squash
+5. Generate your static files. (Replace with whatever tool)
+        grunt
+6. Commit and push the source branch
+        git commit -m "adding the source files"
+
+Now you can simply keep working on the source branch. Whenever you need to publish
+the content into the master branch, just do
+
+    git subtree push --prefix=site/ origin master
+
+
+
+
+
+
                     ]]>
                 </description>
             </item>
@@ -41,7 +244,21 @@ makes it easier.
                 <guid>http://azeemarshad.in/posts/yago_loader.html</guid>
                 <description>
                     <![CDATA[
-                        Yago is a huge semantic knowledge base, containing millions of facts about millions of entities (People, Organizations, Places etc.). I have been playing around with Yago some time back. I was going through the stuff again this weekend and I came across this small loader program that I had written back then.
+                        
+
+Yago is a huge semantic knowledge base, containing millions of facts about millions of entities (People, Organizations, Places etc.). I have been playing around with Yago some time back. I was going through the stuff again this weekend and I came across this small loader program that I had written back then.
+
+The Yago core database is a 3.4Gb download. It comes as a bunch of TSV (Tab Separated Values) files, one file for each predicate (Facts in knowledge bases are represented as triplets of subject, predicate, object). Each file contains tab separated ID, subject and predicate on every line. There is a converter tool also, that can load the TSV data into a database, but I wanted to try loading the files using MySQL LOAD DATA INFILE statement. LOAD DATA INFILE lets you bulk load a file into a table, thus ridding the need to run INSERT statements.  My loader program simply reads a TSV file and creates a temporary file containing the rows to be loaded into the database table and then runs LOAD DATA INFILE statement.
+
+<script src="https://gist.github.com/azeem/1103406.js"></script>
+
+Using the `--exclude` option and `--log` option with the same argument will exclude files in the log. This would allow us to stop the loading at any point and resume, some time later, with the TSV file that it stopped at.
+
+
+
+
+
+
                     ]]>
                 </description>
             </item>
@@ -53,11 +270,137 @@ makes it easier.
                 <guid>http://azeemarshad.in/posts/diagram_connector_routing.html</guid>
                 <description>
                     <![CDATA[
-                        I have been trying to find some interesting coding stuff to work on, something to get off of the
+                        
+
+I have been trying to find some interesting coding stuff to work on, something to get off of the
 line of work that i do at my day job, relive the college days :P. This is an interesting
 problem that came up when i tried to dust off one of my old javascript projects. In simple words, the
 problem goes something like this: given a flow chart, how do you automatically render orthogonal
 flow lines without intersections or collisions.
+
+Yahoo pipes was sort of like a reference design for my project. But i wanted clean
+orthogonal connecting lines that avoided each other, unlike the curvy pipes that would go
+behind components. Interestingly, i could find some nice javascript libraries: WireIt,
+jsPlumb, joinjs etc. that takes care of computing/rendering the connectors etc.
+Regardless, in the DIY spirit, (or rather, the Reinvent The Wheel Yourself spirit :P) i started
+to prototype.
+
+The underlying problem is path search. A 2D canvas can be treated as a Graph, where each
+pixel is represented by a node (lets say we represent a pixel (x,y) with node [x,y]). Obviously, pixels
+that collide with chart components or other flowlines will have no corresponding nodes. Since
+we are interested only in orthogonal paths, we create edges from each node to its four
+orthogonal neighbours (ie. [x,y-1], [x-1,y], [x,y+1], [x+1,y]). The problem of finding
+orthogonal flow line from point (x,y) to (x',y') can now be treated as the problem of finding
+a path from node [x,y] to [x',y'], which can be easily solved by Graph Search Algorithms.
+
+Dijkstra's Algorithm
+--------------------
+
+We would also like the flowlines to look aesthetically pleasing. Although its slightly difficult
+to define, mathematically, what could be aesthetically pleasing, i reason that the
+following two parameters can create good flowlines.
+
+1. *Minimize Path Length* : Obviously, shorter lines connecting chart components are easier to
+   read.
+2. *Minimize Bends*  : Connecting lines which have too many bends are hard to follow. The
+   problem with orthogonal paths is that the shortest distance between any two points is
+   given by manhattan distance. This means that there could be several paths with
+   shortest length. In the absence of obstacles, any of the shortest path can have atmost
+   about min(abs(x'-x), abs(y'-y)) bends (blind guess formula no proofs :P), therefore
+   minimizing bends is important.
+
+For a given path, if we define path cost function g(n) as the sum of distance to node n from
+starting point along the given path and the number of bends along the path from starting point
+to n, then we would like our algorithm the choose the path with least path cost function for
+the end point. We use the dijkstra's algorithm with path cost = g(n) = distance + #of bends
+to do this.
+
+The problem with this approach is that, standard Dijkstra algorithm works by extending optimal
+partial paths. In simple graph search, when there are several optimal partial paths of the same
+cost, the choice between one of these for extension doesnt affect the optimality of the final
+path. But however, in our case, this is not true (again, due to the Taxicab Geometry).
+Consider the following:
+
+    A----(B)
+    |     |
+    |     |
+    |     |
+    D-----C
+    |
+    |
+    |
+    (E)
+
+We are trying to connect B to E. At point D, there are two optimal partial paths
+BAD and BCD of the same cost (cost=length+bends=2+1). If the algorithm
+chooses path BCD for extension the final path BCDE(cost=length+bends=3+2) is suboptimal since
+there is path BADE(cost=length+bends=3+1) with fewer bends. Thus we need to teach our algorithm
+to make the choice in such a way that the extended path is also optimal.
+
+In Dijkstra, we extend a path to a node only if the optimal partial path (if one has aleady
+been computed) at that point, from the start, has greater cost than the new path that
+would be generated after extension. If we introduce an estimate of the minimum number of bends
+required to reach the target also in the above condition ie. we extend only if the sum of cost
+of optimal partial path and estimate of min bends to target is greater than that for the new
+path that would be generated, then we can avoid the previously mentioned problem. Thus, in the
+previous example, if path BAD has already been computed and BC is being considered, then we do
+not extend BC to BCD since atleast 1 more bend is required to reach E along BCD wheras BAD 
+requires no more bends to reach E. Conversely, if BCD has already been computed and BA is being
+considered, then we detach D from BCD and extend BA to BAD since it has lower bends estimate.
+
+The minimum bends-to-target estimate can be easily computed by checking the direction of the partial
+path at the end point and the relative position of the target eg: if target is along same direction
+and in front of the end point then min-bends-to-target is 0, there are three other such cases.
+
+Making it Faster
+----------------
+
+Dijkstra's algorithm is sort of like hitting the pinata, it'd go about searching all over the
+canvas to find the end point. If we have some more information about how warm or cold each point
+is, with respect to the target, we can avoid searching in directions that we know to be less
+likely to lead us to the endpoint. We do this by implementing an A* Search, which is a generalization
+of Dijkstra. We use a heuristic function h(n) = manhattan-distance(n,target)+min-bends(n,target),
+so that the search would try find paths within or close to a rectangle with the start and end points
+at opposite corners and are likely to have fewer bends.
+
+Implementation
+--------------
+
+Dijkstra implementation screenshot
+
+<script src="https://gist.github.com/azeem/1521549.js"></script>
+
+This is a hacky little demo with animation. Hit the play button to run the animation.
+Red dots are nodes which have been considered and Yellow dots are the nodes in the queue. 
+Uncomment `n.heuristic = 0;` line in dijkstra function to switch to simple dijkstra without
+A*.
+
+The Wheel 
+---------
+
+A very interesting optimization to this is to reduce the search to the orthogonal
+visibility Graph (a graph containing points of interest, such as vertices, with arcs drawn
+between nodes that can see each other). This and a more formal approach to this problem is
+detailed in this paper: Orthogonal Connector Routing. The Authors of the paper have
+a C++ implementation of their technique in libavoid libaray.
+
+I dot not have proofs for the correctness, optimality etc. for anything, though it seems to
+work in the simple prototype. Any comments are welcome.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     ]]>
                 </description>
             </item>
@@ -69,8 +412,166 @@ flow lines without intersections or collisions.
                 <guid>http://azeemarshad.in/posts/n-queens-puzzle.html</guid>
                 <description>
                     <![CDATA[
-                        I've been reading this great book, Structure and Interpretation 
+                        
+
+I've been reading this great book, Structure and Interpretation 
 of Computer Programs for the last few days. The examples are full of really cool math, algorithms, techniques and stuff. Here is an exercise that i managed to solve in scheme, The Eight queens puzzle.
+
+> The eight queens puzzle is the problem of putting eight chess queens on an 8x8 chessboard such that none of them is able to capture any other using the standard chess queen's moves.
+
+And here is the source.
+
+    (define (range a b)
+      (if (= a b)
+          null
+          (cons a (range (+ a 1) b))))
+
+    (define (accumulate op initial sequence)
+      (if (null? sequence)
+          initial
+          (op (car sequence)
+              (accumulate op initial (cdr sequence)))))
+
+    (define (flatmap proc seq)
+      (accumulate append null (map proc seq)))
+
+    (define (enumerate sequence)
+      (define (iter counter sequence)
+        (if (null? sequence)
+            null
+            (append (list (cons counter (car sequence))) (iter (+ counter 1) (cdr sequence)))))
+      (iter 0 sequence))
+
+    (define (rook-attack-safe? possibilities)
+      (accumulate (lambda (a b) (and a b))
+                  true
+                  (map (lambda (possibility)
+                         (not (= possibility (last possibilities))))
+                       (cdr (reverse possibilities)))))
+
+    (define (bishop-attack-safe? possibilities)
+      (accumulate (lambda (a b) (and a b))
+                  true
+                  (map (lambda (pair)
+                         (not (= (abs (- (last possibilities) (cdr pair)))
+                                 (abs (- (- (length possibilities) 1) (car pair))))))
+                       (enumerate (reverse (cdr (reverse possibilities)))))))
+
+    (define (safe? possibilities)
+      (and (rook-attack-safe? possibilities)
+           (bishop-attack-safe? possibilities)))
+
+    (define (n-queens-puzzle k)
+      (define (solve n k)
+        (if (= n 0)
+            '(())
+            (filter safe?
+                   (flatmap (lambda (last)
+                              (map (lambda (item)
+                                     (append item (list last)))
+                                   (solve (- n 1) k)))
+                            (range 0 k)))))
+      (solve k k))
+
+Please excuse the crappy code. Im a total noob schemer, infact this is probably my first real scheme program. The solution is based on the recursive method described in the book. It works like this: only one queen can be placed in any one column, the problem of placing queens in all columns without any check can be reduced, using recursion, to that of placing a queen in the last column of a board in which all the other columns already have queens in positions that do not check each other.
+
+It took quite some time to solve an 8x8 board. Im not even sure if the results are correct. But a few random checks on paper turned out correct and i got 92 results, which according to wikipedia is the total number of solutions. However, there are only 12 unique solutions, many of the 92 solutions are repetitions since one solution can be horizontally or vertically flipped to create different solutions. Each solution here is a list whose indices correspond to the board column number and the values represent the row in which the queen is placed in the corresponding column.
+
+    ((3 1 6 2 5 7 4 0)
+     (4 1 3 6 2 7 5 0)
+     (2 4 1 7 5 3 6 0)
+     (2 5 3 1 7 4 6 0)
+     (4 6 0 2 7 5 3 1)
+     (3 5 7 2 0 6 4 1)
+     (2 5 7 0 3 6 4 1)
+     (4 2 7 3 6 0 5 1)
+     (4 6 3 0 2 7 5 1)
+     (3 0 4 7 5 2 6 1)
+     (2 5 3 0 7 4 6 1)
+     (3 6 4 2 0 5 7 1)
+     (5 3 1 7 4 6 0 2)
+     (5 3 6 0 7 1 4 2)
+     (0 6 3 5 7 1 4 2)
+     (5 7 1 3 0 6 4 2)
+     (5 1 6 0 3 7 4 2)
+     (3 6 0 7 4 1 5 2)
+     (4 7 3 0 6 1 5 2)
+     (3 7 0 4 6 1 5 2)
+     (1 6 4 7 0 3 5 2)
+     (0 6 4 7 1 3 5 2)
+     (1 4 6 3 0 7 5 2)
+     (3 1 6 4 0 7 5 2)
+     (4 6 0 3 1 7 5 2)
+     (5 3 0 4 7 1 6 2)
+     (4 0 3 5 7 1 6 2)
+     (4 1 5 0 6 3 7 2)
+     (5 2 6 1 7 4 0 3)
+     (1 6 2 5 7 4 0 3)
+     (6 2 0 5 7 4 1 3)
+     (4 0 7 5 2 6 1 3)
+     (0 4 7 5 2 6 1 3)
+     (2 5 7 0 4 6 1 3)
+     (5 2 0 6 4 7 1 3)
+     (6 4 2 0 5 7 1 3)
+     (6 2 7 1 4 0 5 3)
+     (4 2 0 6 1 7 5 3)
+     (1 4 6 0 2 7 5 3)
+     (2 5 1 4 7 0 6 3)
+     (5 0 4 1 7 2 6 3)
+     (7 2 0 5 1 4 6 3)
+     (1 7 5 0 2 4 6 3)
+     (4 6 1 5 2 0 7 3)
+     (2 5 1 6 4 0 7 3)
+     (5 1 6 0 2 4 7 3)
+     (2 6 1 7 5 3 0 4)
+     (5 2 6 1 3 7 0 4)
+     (3 1 6 2 5 7 0 4)
+     (6 0 2 7 5 3 1 4)
+     (0 5 7 2 6 3 1 4)
+     (2 7 3 6 0 5 1 4)
+     (5 2 6 3 0 7 1 4)
+     (6 3 1 7 5 0 2 4)
+     (3 5 7 1 6 0 2 4)
+     (1 5 0 6 3 7 2 4)
+     (1 3 5 7 2 0 6 4)
+     (2 5 7 1 3 0 6 4)
+     (5 2 0 7 3 1 6 4)
+     (7 3 0 2 5 1 6 4)
+     (3 7 0 2 5 1 6 4)
+     (1 5 7 2 0 3 6 4)
+     (6 1 5 2 0 3 7 4)
+     (2 5 1 6 0 3 7 4)
+     (3 6 2 7 1 4 0 5)
+     (3 7 4 2 0 6 1 5)
+     (2 4 7 3 0 6 1 5)
+     (3 1 7 4 6 0 2 5)
+     (4 6 1 3 7 0 2 5)
+     (6 3 1 4 7 0 2 5)
+     (7 1 3 0 6 4 2 5)
+     (6 1 3 0 7 4 2 5)
+     (4 0 7 3 1 6 2 5)
+     (3 0 4 7 1 6 2 5)
+     (4 1 7 0 3 6 2 5)
+     (2 6 1 7 4 0 3 5)
+     (2 0 6 4 7 1 3 5)
+     (7 1 4 2 0 6 3 5)
+     (2 4 1 7 0 6 3 5)
+     (2 4 6 0 3 1 7 5)
+     (4 1 3 5 7 2 0 6)
+     (5 2 4 7 0 3 1 6)
+     (4 7 3 0 2 5 1 6)
+     (3 1 4 7 5 0 2 6)
+     (3 5 0 4 1 7 2 6)
+     (5 2 0 7 4 1 3 6)
+     (4 2 0 5 7 1 3 6)
+     (3 1 7 5 0 2 4 6)
+     (5 2 4 6 0 3 1 7)
+     (5 3 6 0 2 4 1 7)
+     (3 6 4 1 5 0 2 7)
+     (4 6 1 5 2 0 3 7))
+
+Better solutions
+
                     ]]>
                 </description>
             </item>
