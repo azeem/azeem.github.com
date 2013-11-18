@@ -6,6 +6,22 @@
         <description>Azeem Arshad&#39;s Personal Pages</description>
         
             <item>
+                <title>ctrlp.vim</title>
+                <pubDate>Tue, 19 Nov 2013 14:15:00 +0530</pubDate>
+                <link>http://azeemarshad.in/links/Nov2013.html#ctrlpvim</link>
+                <guid>https://github.com/kien/ctrlp.vim</guid>
+                <description>
+                    <![CDATA[
+                        <blockquote>
+<p>Full path fuzzy file, buffer, mru, tag, ... finder for Vim.</p>
+</blockquote>
+
+                        <a href="https://github.com/kien/ctrlp.vim">Link</a>
+                    ]]>
+                </description>
+            </item>
+        
+            <item>
                 <title>What is the maximum Bandwidth? - Sixty Symbols</title>
                 <pubDate>Wed, 13 Nov 2013 18:32:00 +0530</pubDate>
                 <link>http://azeemarshad.in/links/Nov2013.html#what_is_the_maximum_bandwidth__sixty_symbols</link>
