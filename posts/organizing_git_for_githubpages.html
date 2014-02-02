@@ -24,7 +24,7 @@ to generate your static html then you will end up with a bunch of source files (
 config files. templates etc.) that the tool uses to generate the site. Managing the source
 files separately is rather cumbersome. Fortunately git has some nice little features that
 makes it easier.</p>
-<h2 id="orphan-branches">Orphan Branches</h2>
+<h2>Orphan Branches</h2>
 <p><code>git checkout</code> has an <code>--orphan</code> switch that lets you create a completely disconnected
 branch.</p>
 <blockquote>
@@ -39,7 +39,7 @@ commits.</p>
 code branch, but still within the same repo. With Organization and User pages, however, since
 it uses a separate repo itself, the static files are picked up from the master branch.
 Our source files can therefore be maintained in a separate orphan branch.</p>
-<h2 id="subtree">Subtree</h2>
+<h2>Subtree</h2>
 <p>Copying the static site generator output directory into the master branch and then pushing 
 it separately is again, too much work. The Git subtree feature makes this simpler.</p>
 <blockquote>
@@ -48,7 +48,7 @@ main project, optionally including the subproject&#39;s entire history.</p>
 </blockquote>
 <p>So the only thing that we need to do now, is add the master branch as subtree directory
 in our source branch, and configure the tool to ouput to this directory.</p>
-<h2 id="the-setup">The Setup</h2>
+<h2>The Setup</h2>
 <ol>
 <li>Create an orphan branch for the source (<em>source</em> in this eg: ) and clean up everything<pre><code> git checkout --orphan source
  rm -rf ,</code></pre>
