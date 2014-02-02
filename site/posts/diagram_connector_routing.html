@@ -36,7 +36,7 @@ we are interested only in orthogonal paths, we create edges from each node to it
 orthogonal neighbours (ie. [x,y-1], [x-1,y], [x,y+1], [x+1,y]). The problem of finding
 orthogonal flow line from point (x,y) to (x&#39;,y&#39;) can now be treated as the problem of finding
 a path from node [x,y] to [x&#39;,y&#39;], which can be easily solved by <a href="http://en.wikipedia.org/wiki/Graph_search_algorithm">Graph Search Algorithms</a>.</p>
-<h2 id="dijkstra-s-algorithm">Dijkstra&#39;s Algorithm</h2>
+<h2>Dijkstra&#39;s Algorithm</h2>
 <p>We would also like the flowlines to look aesthetically pleasing. Although its slightly difficult
 to define, mathematically, what could be aesthetically pleasing, i reason that the
 following two parameters can create good flowlines.</p>
@@ -87,7 +87,7 @@ considered, then we detach D from BCD and extend BA to BAD since it has lower be
 <p>The minimum bends-to-target estimate can be easily computed by checking the direction of the partial
 path at the end point and the relative position of the target eg: if target is along same direction
 and in front of the end point then min-bends-to-target is 0, there are three other such cases.</p>
-<h2 id="making-it-faster">Making it Faster</h2>
+<h2>Making it Faster</h2>
 <p>Dijkstra&#39;s algorithm is sort of like hitting the pinata, it&#39;d go about searching all over the
 canvas to find the end point. If we have some more information about how warm or cold each point
 is, with respect to the target, we can avoid searching in directions that we know to be less
@@ -95,7 +95,7 @@ likely to lead us to the endpoint. We do this by implementing an <a href="http:/
 of Dijkstra. We use a heuristic function h(n) = manhattan-distance(n,target)+min-bends(n,target),
 so that the search would try find paths within or close to a rectangle with the start and end points
 at opposite corners and are likely to have fewer bends.</p>
-<h2 id="implementation">Implementation</h2>
+<h2>Implementation</h2>
 <p><img src="/images/dijkstra_demo.png" alt="Dijkstra implementation screenshot"></p>
 <script src="https://gist.github.com/azeem/1521549.js"></script>
 
@@ -103,7 +103,7 @@ at opposite corners and are likely to have fewer bends.</p>
 Red dots are nodes which have been considered and Yellow dots are the nodes in the queue. 
 Uncomment <code>n.heuristic = 0;</code> line in dijkstra function to switch to simple dijkstra without
 A*.</p>
-<h2 id="the-wheel-">The Wheel </h2>
+<h2>The Wheel </h2>
 <p>A very interesting optimization to this is to reduce the search to the orthogonal
 visibility Graph (a graph containing points of interest, such as vertices, with arcs drawn
 between nodes that can see each other). This and a more formal approach to this problem is
